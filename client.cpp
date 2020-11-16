@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    server = gethostbyname(argv[1]);
+    server = gethostbyname(argv[1]); //vrati IP servera na zaklade DNS
     if (server == NULL)
     {
         fprintf(stderr, "Error, no such host\n");
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     bzero((char*)&serv_addr, sizeof(serv_addr)); //Vynuluj struct
     serv_addr.sin_family = AF_INET; //definuje ze pouzivame internetove sockety
     bcopy(
-            (char*)server->h_addr,
+            (char*)server->h_addr,//object ktory obsahuje IP servera
             (char*)&serv_addr.sin_addr.s_addr, //IP adresa servera kde sa chcem pripojit
             server->h_length //velkost premennej
     );
