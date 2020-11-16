@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
             (char*)&serv_addr.sin_addr.s_addr, //IP adresa servera kde sa chcem pripojit
             server->h_length //velkost premennej
     );
-    serv_addr.sin_port = htons(atoi(argv[2]));
+    serv_addr.sin_port = htons(atoi(argv[2])); //port na ktorom pocuva server
 
     //vytvaram spojovaci socket ako na server-side
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
