@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/tmp/tmp.ygOnv25QWT/main.cpp" "/tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles/poker_app.dir/main.cpp.o"
+  "/tmp/tmp.ygOnv25QWT/server.cpp" "/tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles/poker_app.dir/server.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

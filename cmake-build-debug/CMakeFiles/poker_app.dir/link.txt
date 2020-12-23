@@ -1,1 +1,1 @@
-/usr/bin/c++   -g   CMakeFiles/poker_app.dir/main.cpp.o  -o poker_app 
+/usr/bin/c++   -g   CMakeFiles/poker_app.dir/main.cpp.o CMakeFiles/poker_app.dir/server.cpp.o  -o poker_app 

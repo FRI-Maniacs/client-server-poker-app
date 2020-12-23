@@ -87,6 +87,9 @@
 		<Unit filename="/tmp/tmp.ygOnv25QWT/main.cpp">
 			<Option target="poker_app"/>
 		</Unit>
+		<Unit filename="/tmp/tmp.ygOnv25QWT/server.cpp">
+			<Option target="poker_app"/>
+		</Unit>
 		<Unit filename="/tmp/tmp.ygOnv25QWT/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

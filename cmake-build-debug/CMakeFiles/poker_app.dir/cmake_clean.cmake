@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/poker_app.dir/main.cpp.o"
+  "CMakeFiles/poker_app.dir/server.cpp.o"
   "poker_app.pdb"
   "poker_app"
 )

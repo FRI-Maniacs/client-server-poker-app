@@ -7,7 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 
-int main(int argc, char *argv[])
+int client(int argc, char *argv[])
 {
     int sockfd, n;
     struct sockaddr_in serv_addr;
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     }
 
     server = gethostbyname(argv[1]); //vrati IP servera na zaklade DNS
-    if (server == NULL)
+    if (server == nullptr)
     {
         fprintf(stderr, "Error, no such host\n");
         return 2;
