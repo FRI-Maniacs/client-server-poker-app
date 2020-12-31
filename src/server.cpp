@@ -5,7 +5,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <unistd.h>
-
+#include <iostream>
+#include "./headers/server.h"
 
 int server(int argc, char *argv[])
 {
@@ -27,7 +28,7 @@ int server(int argc, char *argv[])
     bzero((char*)&serv_addr, sizeof(serv_addr)); //Vynuluje obsah structu (v Linuxe)
     serv_addr.sin_family = AF_INET; //Aky typ socketov chcem pouzit (internetove sockety)
     serv_addr.sin_addr.s_addr = INADDR_ANY; //Z ktorych adries chceme prijimat sockety (vsetky adresy)
-    serv_addr.sin_port = htons(atoi(argv[1])); //Na akom porte bude pocuvat
+    serv_addr.sin_port = htons(atoi(argv[2])); //Na akom porte bude pocuvat
 
     //Systemove volanie socket definuje jeden socket na pouzivanie - return int
     //1.atribut 'AF_INET' => definujeme typ socketu na komunikaciu cez net
@@ -67,29 +68,33 @@ int server(int argc, char *argv[])
         return 3;
     }
 
-    bzero(buffer,256); //Vynuluj buffer
+    for (;;) {
+        bzero(buffer, 256); //Vynuluj buffer
 
-    //read() => obdoba func recieve()
-    //citam spravu zo socketu co poslal client do buffra
-    n = read(newsockfd, buffer, 255);
-    if (n < 0)
-    {
-        perror("Error reading from socket");
-        return 4;
+        //read() => obdoba func recieve()
+        //citam spravu zo socketu co poslal client do buffra
+        n = read(newsockfd, buffer, 255);
+        if (n < 0) {
+            perror("Error reading from socket");
+            return 4;
+        }
+        if (std::string(buffer) == "q"){
+            std::cout<<"Server quit" <<std::endl;
+            break;
+        }
+
+        printf("Here is the message: %s\n", buffer);
+
+        const char *msg = "I got your message"; //sprava od servera clientovi
+
+        //do socketu zapisem spravu a dlzku spravy
+        //strlen(msg)+1 => kvoli pridanemu characteru '\0', ktory znaci koniec stringu
+        n = write(newsockfd, msg, strlen(msg) + 1);
+        if (n < 0) {
+            perror("Error writing to socket");
+            return 5;
+        }
     }
-    printf("Here is the message: %s\n", buffer);
-
-    const char* msg = "I got your message"; //sprava od servera clientovi
-
-    //do socketu zapisem spravu a dlzku spravy
-    //strlen(msg)+1 => kvoli pridanemu characteru '\0', ktory znaci koniec stringu
-    n = write(newsockfd, msg, strlen(msg)+1);
-    if (n < 0)
-    {
-        perror("Error writing to socket");
-        return 5;
-    }
-
     close(newsockfd); //po skonceni komunikacie zavreme komunikacny socket
     close(sockfd);//zavreme spojovaci socket
 
