@@ -53,17 +53,16 @@ int client(int argc, char* argv[])
         perror("Error connecting to socket");
         return 4;
     }
-    for(;;) {
+    //for(;;) {
         printf("Please enter a message: ");
         bzero(buffer, 256); //vynuluj buffer
         fgets(buffer, 255, stdin); //do buffera ulozi input pouzivatela
-
-        if (std::string(buffer) == "q"){
+        /*
         if (std::string(buffer) == "q"){
             std::cout<<"Client quit" <<std::endl;
-        }
             break;
-        }
+        }*/
+
         n = write(sockfd, buffer, strlen(buffer)); //zapis spravu do socketu o velkosti buffera
         if (n < 0) {
             perror("Error writing to socket");
@@ -78,7 +77,7 @@ int client(int argc, char* argv[])
         }
 
         printf("%s\n", buffer);
-    }
+    //}
 
     close(sockfd); //zavri spojovaci socket
 

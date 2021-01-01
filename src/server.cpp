@@ -6,97 +6,89 @@
 #include <cstring>
 #include <unistd.h>
 #include <iostream>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include "./headers/server.h"
+
+#define BUFFSIZE 4096
+#define SOCKET_ERROR (-1)
+#define SERVER_BACKLOG 10
+
+typedef struct sockaddr_in SA_IN;
+typedef struct sockaddr SA;
+
+
 
 int server(int argc, char *argv[])
 {
-    int sockfd, newsockfd;
-    socklen_t cli_len;
+    int server_socket, client_socket, addr_size;
+    SA_IN server_addr, client_addr;
 
-    //struct, ktory jednoznacne popisuje proces z pohladu netu
-    struct sockaddr_in serv_addr, cli_addr;
+    check((server_socket = socket(AF_INET, SOCK_STREAM, 0)),
+          "Failed to create socket!");
 
-    int n;
-    char buffer[256];
+    //inicialize address struct
+    bzero((char*)&server_addr, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+    server_addr.sin_port = htons(atoi(argv[2]));
 
-    if (argc < 2)
-    {
-        fprintf(stderr,"usage %s port\n", argv[0]);
-        return 1;
-    }
+    check(bind(server_socket, (SA*)&server_addr, sizeof(server_addr)),
+          "Bind Failed!");
 
-    bzero((char*)&serv_addr, sizeof(serv_addr)); //Vynuluje obsah structu (v Linuxe)
-    serv_addr.sin_family = AF_INET; //Aky typ socketov chcem pouzit (internetove sockety)
-    serv_addr.sin_addr.s_addr = INADDR_ANY; //Z ktorych adries chceme prijimat sockety (vsetky adresy)
-    serv_addr.sin_port = htons(atoi(argv[2])); //Na akom porte bude pocuvat
+    check(listen(server_socket, SERVER_BACKLOG), "Listen Failed!");
 
-    //Systemove volanie socket definuje jeden socket na pouzivanie - return int
-    //1.atribut 'AF_INET' => definujeme typ socketu na komunikaciu cez net
-    //2.atribut 'SOCK_STREAM' => defunujeme pouzity protokol v tomto pripade TCP
-    //3.atribut 0 => dodatocna config, vacsinou vzdy 0
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0)
-    {
-        //socket vracia < 0 ak sa nepodaril vytvorit
-        //napr. kvoli nedostatku prostriedkov
-        perror("Error creating socket");
-        return 1;
-    }
+    //while (true) {
+        printf("Waiting for connections...\n");
+        addr_size = sizeof(SA_IN);
+        check((client_socket = accept(server_socket, (SA*)&client_addr, (socklen_t*)&addr_size)),
+                "Accept Failed!");
+        printf("Connected!\n");
 
-    //bind - spristupnuje socket na kumunikaciu
-    //1.atribut 'sockfd' => na tento socket sa moze pripojit hocikaky iny proces z netu z lubovolnej IP
-    //2.atribut 'struct' => konfiguracny struct na definovanie spojenia
-    //3.atribut 'sizeof(struct)' => definuje aka velka je dana struktura
-    if (bind(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
-    {
-        perror("Error binding socket address");
-        return 2;
-    }
+        int *pclient = new int;
+        *pclient = client_socket;
+        std::thread th_client(handle_connection, pclient);
+        th_client.join();
 
-    //listen() robi zo socketu pasivny socket t.j. pomocou neho sa bude nadvazovat komunikacia
-    listen(sockfd, 5); //5 => max 5 clientov sa moze NARAZ v jednom okamihu pripojit
-    cli_len = sizeof(cli_addr);
-
-    //accept - vytvori socket pomocou ktoreho bude server komunikovat s clientom
-    //1.atribut 'sockfd' => na tento socket sa moze pripojit hocikaky iny proces z netu z lubovolnej IP
-    //2.atribut 'struct' => struct s info o clientovi (IP-address, PORT)
-    //3.atribut 'sizeof(struct)' => definuje aka velka je dana struktura
-    newsockfd = accept(sockfd, (struct sockaddr*)&cli_addr, &cli_len);
-    if (newsockfd < 0)
-    {
-        perror("ERROR on accept");
-        return 3;
-    }
-
-    for (;;) {
-        bzero(buffer, 256); //Vynuluj buffer
-
-        //read() => obdoba func recieve()
-        //citam spravu zo socketu co poslal client do buffra
-        n = read(newsockfd, buffer, 255);
-        if (n < 0) {
-            perror("Error reading from socket");
-            return 4;
-        }
-        if (std::string(buffer) == "q"){
-            std::cout<<"Server quit" <<std::endl;
-            break;
-        }
-
-        printf("Here is the message: %s\n", buffer);
-
-        const char *msg = "I got your message"; //sprava od servera clientovi
-
-        //do socketu zapisem spravu a dlzku spravy
-        //strlen(msg)+1 => kvoli pridanemu characteru '\0', ktory znaci koniec stringu
-        n = write(newsockfd, msg, strlen(msg) + 1);
-        if (n < 0) {
-            perror("Error writing to socket");
-            return 5;
-        }
-    }
-    close(newsockfd); //po skonceni komunikacie zavreme komunikacny socket
-    close(sockfd);//zavreme spojovaci socket
-
+    //}
+    close(server_socket);
     return 0;
 }
+
+void* handle_connection(void* p_client_socket) {
+    int client_socket = *((int*)p_client_socket);
+    free(p_client_socket);
+
+    char buffer[BUFFSIZE];
+    size_t bytes_read;
+    size_t bytes_write;
+    int msgsize = 0;
+
+    bytes_read = read(client_socket, buffer, BUFFSIZE-1);
+    check(bytes_read, "Read Failed!");
+
+    printf("Client message: %s\n", buffer);
+
+    const char *msg = "I got your message";
+
+    bytes_write = write(client_socket, msg, strlen(msg) + 1);
+    if (bytes_write < 0) {
+        perror("Error writing to socket");
+        return nullptr;
+    }
+
+    close(client_socket);
+    printf("Closing connection...\n");
+
+    return nullptr;
+}
+
+int check(int exp, const char* msg) {
+    if (exp == SOCKET_ERROR) {
+        perror(msg);
+        exit(1);
+    }
+    return exp;
+}
+
