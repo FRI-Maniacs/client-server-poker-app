@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/tmp.ygOnv25QWT
+CMAKE_SOURCE_DIR = /tmp/tmp.87eUbnXTyU
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/tmp.ygOnv25QWT/cmake-build-debug
+CMAKE_BINARY_DIR = /tmp/tmp.87eUbnXTyU/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/poker_app.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/poker_app.dir/flags.make
 
 CMakeFiles/poker_app.dir/src/main.cpp.o: CMakeFiles/poker_app.dir/flags.make
 CMakeFiles/poker_app.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/poker_app.dir/src/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/poker_app.dir/src/main.cpp.o -c /tmp/tmp.ygOnv25QWT/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/poker_app.dir/src/main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/poker_app.dir/src/main.cpp.o -c /tmp/tmp.87eUbnXTyU/src/main.cpp
 
 CMakeFiles/poker_app.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/poker_app.dir/src/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.ygOnv25QWT/src/main.cpp > CMakeFiles/poker_app.dir/src/main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.87eUbnXTyU/src/main.cpp > CMakeFiles/poker_app.dir/src/main.cpp.i
 
 CMakeFiles/poker_app.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/poker_app.dir/src/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.ygOnv25QWT/src/main.cpp -o CMakeFiles/poker_app.dir/src/main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.87eUbnXTyU/src/main.cpp -o CMakeFiles/poker_app.dir/src/main.cpp.s
 
 CMakeFiles/poker_app.dir/src/main.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/poker_app.dir/src/main.cpp.o.provides.build: CMakeFiles/poker_app.dir
 
 CMakeFiles/poker_app.dir/src/server.cpp.o: CMakeFiles/poker_app.dir/flags.make
 CMakeFiles/poker_app.dir/src/server.cpp.o: ../src/server.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/poker_app.dir/src/server.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/poker_app.dir/src/server.cpp.o -c /tmp/tmp.ygOnv25QWT/src/server.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/poker_app.dir/src/server.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/poker_app.dir/src/server.cpp.o -c /tmp/tmp.87eUbnXTyU/src/server.cpp
 
 CMakeFiles/poker_app.dir/src/server.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/poker_app.dir/src/server.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.ygOnv25QWT/src/server.cpp > CMakeFiles/poker_app.dir/src/server.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.87eUbnXTyU/src/server.cpp > CMakeFiles/poker_app.dir/src/server.cpp.i
 
 CMakeFiles/poker_app.dir/src/server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/poker_app.dir/src/server.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.ygOnv25QWT/src/server.cpp -o CMakeFiles/poker_app.dir/src/server.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.87eUbnXTyU/src/server.cpp -o CMakeFiles/poker_app.dir/src/server.cpp.s
 
 CMakeFiles/poker_app.dir/src/server.cpp.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/poker_app.dir/src/server.cpp.o.provides.build: CMakeFiles/poker_app.d
 
 CMakeFiles/poker_app.dir/src/client.cpp.o: CMakeFiles/poker_app.dir/flags.make
 CMakeFiles/poker_app.dir/src/client.cpp.o: ../src/client.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/poker_app.dir/src/client.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/poker_app.dir/src/client.cpp.o -c /tmp/tmp.ygOnv25QWT/src/client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/poker_app.dir/src/client.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/poker_app.dir/src/client.cpp.o -c /tmp/tmp.87eUbnXTyU/src/client.cpp
 
 CMakeFiles/poker_app.dir/src/client.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/poker_app.dir/src/client.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.ygOnv25QWT/src/client.cpp > CMakeFiles/poker_app.dir/src/client.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.87eUbnXTyU/src/client.cpp > CMakeFiles/poker_app.dir/src/client.cpp.i
 
 CMakeFiles/poker_app.dir/src/client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/poker_app.dir/src/client.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.ygOnv25QWT/src/client.cpp -o CMakeFiles/poker_app.dir/src/client.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.87eUbnXTyU/src/client.cpp -o CMakeFiles/poker_app.dir/src/client.cpp.s
 
 CMakeFiles/poker_app.dir/src/client.cpp.o.requires:
 
@@ -143,7 +143,7 @@ poker_app: CMakeFiles/poker_app.dir/src/server.cpp.o
 poker_app: CMakeFiles/poker_app.dir/src/client.cpp.o
 poker_app: CMakeFiles/poker_app.dir/build.make
 poker_app: CMakeFiles/poker_app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable poker_app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable poker_app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/poker_app.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -162,6 +162,6 @@ CMakeFiles/poker_app.dir/clean:
 .PHONY : CMakeFiles/poker_app.dir/clean
 
 CMakeFiles/poker_app.dir/depend:
-	cd /tmp/tmp.ygOnv25QWT/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/tmp.ygOnv25QWT /tmp/tmp.ygOnv25QWT /tmp/tmp.ygOnv25QWT/cmake-build-debug /tmp/tmp.ygOnv25QWT/cmake-build-debug /tmp/tmp.ygOnv25QWT/cmake-build-debug/CMakeFiles/poker_app.dir/DependInfo.cmake --color=$(COLOR)
+	cd /tmp/tmp.87eUbnXTyU/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/tmp.87eUbnXTyU /tmp/tmp.87eUbnXTyU /tmp/tmp.87eUbnXTyU/cmake-build-debug /tmp/tmp.87eUbnXTyU/cmake-build-debug /tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/poker_app.dir/depend
 

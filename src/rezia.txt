@@ -1,0 +1,38 @@
+Príkazy servera:
+
+help, q, startgame, endgame
+
+Príkazy klienta:
+
+help, q, abandon, check, call, raise, fold
+
+Stavy servera:
+
+1. Čakanie na pripojenie => q
+2. Pripojení hráči [2..6] => create, q
+3. stav hrania => endgame, q
+
+Stavy klienta:
+
+1. Pripojený => help, q
+2. V hre => help, q, abandon, check, call, raise, fold
+
+Priebeh hry
+
+1. Rozohra
+
+každý ma 50 j.
+
+1.1. Povinná stávka: 1. 3 hráči 20u
+1.2. Nepovinnná stávka 4. hráč check
+
+2-4. 3-5 karty na stole
+2. check, call, raise, fold
+
+5. vyhodnotenie hry.
+
+Client:
+
+Stavy:
+
+

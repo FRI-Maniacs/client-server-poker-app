@@ -34,16 +34,18 @@ int server(int argc, char *argv[])
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(atoi(argv[2]));
 
-    check(bind(server_socket, (SA*)&server_addr, sizeof(server_addr)),
-          "Bind Failed!");
+    check(bind(server_socket, (SA*)&server_addr, sizeof(server_addr)), "Bind Failed!");
 
     check(listen(server_socket, SERVER_BACKLOG), "Listen Failed!");
 
+    printf("Waiting for connections...\n");
+
     //while (true) {
-        printf("Waiting for connections...\n");
+    int clientCount = 0;
         addr_size = sizeof(SA_IN);
         check((client_socket = accept(server_socket, (SA*)&client_addr, (socklen_t*)&addr_size)),
                 "Accept Failed!");
+        clientCount++;
         printf("Connected!\n");
 
         int *pclient = new int;
