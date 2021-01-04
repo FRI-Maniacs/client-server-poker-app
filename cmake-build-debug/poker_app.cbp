@@ -87,6 +87,33 @@
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/client.cpp">
 			<Option target="poker_app"/>
 		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/enums/Face.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/enums/HandRanking.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/enums/Moves.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/enums/Seat.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/enums/Suit.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/Card.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/Player.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/PokerHand.h">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/PokerTable.h">
+			<Option target="poker_app"/>
+		</Unit>
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/client.h">
 			<Option target="poker_app"/>
 		</Unit>
@@ -94,6 +121,18 @@
 			<Option target="poker_app"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/main.cpp">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/Card.cpp">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/Player.cpp">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/PokerHand.cpp">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/PokerTable.cpp">
 			<Option target="poker_app"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/server.cpp">

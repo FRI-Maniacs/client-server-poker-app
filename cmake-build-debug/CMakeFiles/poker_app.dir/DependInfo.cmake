@@ -6,6 +6,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/tmp/tmp.87eUbnXTyU/src/client.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/client.cpp.o"
   "/tmp/tmp.87eUbnXTyU/src/main.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/main.cpp.o"
+  "/tmp/tmp.87eUbnXTyU/src/objects/Card.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/objects/Card.cpp.o"
+  "/tmp/tmp.87eUbnXTyU/src/objects/Player.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/objects/Player.cpp.o"
+  "/tmp/tmp.87eUbnXTyU/src/objects/PokerHand.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.o"
+  "/tmp/tmp.87eUbnXTyU/src/objects/PokerTable.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o"
   "/tmp/tmp.87eUbnXTyU/src/server.cpp" "/tmp/tmp.87eUbnXTyU/cmake-build-debug/CMakeFiles/poker_app.dir/src/server.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

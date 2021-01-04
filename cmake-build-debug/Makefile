@@ -177,6 +177,114 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/objects/Card.o: src/objects/Card.cpp.o
+
+.PHONY : src/objects/Card.o
+
+# target to build an object file
+src/objects/Card.cpp.o:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Card.cpp.o
+.PHONY : src/objects/Card.cpp.o
+
+src/objects/Card.i: src/objects/Card.cpp.i
+
+.PHONY : src/objects/Card.i
+
+# target to preprocess a source file
+src/objects/Card.cpp.i:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Card.cpp.i
+.PHONY : src/objects/Card.cpp.i
+
+src/objects/Card.s: src/objects/Card.cpp.s
+
+.PHONY : src/objects/Card.s
+
+# target to generate assembly for a file
+src/objects/Card.cpp.s:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Card.cpp.s
+.PHONY : src/objects/Card.cpp.s
+
+src/objects/Player.o: src/objects/Player.cpp.o
+
+.PHONY : src/objects/Player.o
+
+# target to build an object file
+src/objects/Player.cpp.o:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Player.cpp.o
+.PHONY : src/objects/Player.cpp.o
+
+src/objects/Player.i: src/objects/Player.cpp.i
+
+.PHONY : src/objects/Player.i
+
+# target to preprocess a source file
+src/objects/Player.cpp.i:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Player.cpp.i
+.PHONY : src/objects/Player.cpp.i
+
+src/objects/Player.s: src/objects/Player.cpp.s
+
+.PHONY : src/objects/Player.s
+
+# target to generate assembly for a file
+src/objects/Player.cpp.s:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Player.cpp.s
+.PHONY : src/objects/Player.cpp.s
+
+src/objects/PokerHand.o: src/objects/PokerHand.cpp.o
+
+.PHONY : src/objects/PokerHand.o
+
+# target to build an object file
+src/objects/PokerHand.cpp.o:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.o
+.PHONY : src/objects/PokerHand.cpp.o
+
+src/objects/PokerHand.i: src/objects/PokerHand.cpp.i
+
+.PHONY : src/objects/PokerHand.i
+
+# target to preprocess a source file
+src/objects/PokerHand.cpp.i:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.i
+.PHONY : src/objects/PokerHand.cpp.i
+
+src/objects/PokerHand.s: src/objects/PokerHand.cpp.s
+
+.PHONY : src/objects/PokerHand.s
+
+# target to generate assembly for a file
+src/objects/PokerHand.cpp.s:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.s
+.PHONY : src/objects/PokerHand.cpp.s
+
+src/objects/PokerTable.o: src/objects/PokerTable.cpp.o
+
+.PHONY : src/objects/PokerTable.o
+
+# target to build an object file
+src/objects/PokerTable.cpp.o:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o
+.PHONY : src/objects/PokerTable.cpp.o
+
+src/objects/PokerTable.i: src/objects/PokerTable.cpp.i
+
+.PHONY : src/objects/PokerTable.i
+
+# target to preprocess a source file
+src/objects/PokerTable.cpp.i:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.i
+.PHONY : src/objects/PokerTable.cpp.i
+
+src/objects/PokerTable.s: src/objects/PokerTable.cpp.s
+
+.PHONY : src/objects/PokerTable.s
+
+# target to generate assembly for a file
+src/objects/PokerTable.cpp.s:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.s
+.PHONY : src/objects/PokerTable.cpp.s
+
 src/server.o: src/server.cpp.o
 
 .PHONY : src/server.o
@@ -219,6 +327,18 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/objects/Card.o"
+	@echo "... src/objects/Card.i"
+	@echo "... src/objects/Card.s"
+	@echo "... src/objects/Player.o"
+	@echo "... src/objects/Player.i"
+	@echo "... src/objects/Player.s"
+	@echo "... src/objects/PokerHand.o"
+	@echo "... src/objects/PokerHand.i"
+	@echo "... src/objects/PokerHand.s"
+	@echo "... src/objects/PokerTable.o"
+	@echo "... src/objects/PokerTable.i"
+	@echo "... src/objects/PokerTable.s"
 	@echo "... src/server.o"
 	@echo "... src/server.i"
 	@echo "... src/server.s"
