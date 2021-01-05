@@ -6,22 +6,34 @@
 #include <cstring>
 #include <unistd.h>
 #include <iostream>
+#include <sstream>
 #include <thread>
-#include <mutex>
-#include <condition_variable>
 #include "./headers/server.h"
 
-#define BUFFSIZE 4096
+#define MAX_LEN 200
 #define SOCKET_ERROR (-1)
 #define SERVER_BACKLOG 10
 
 typedef struct sockaddr_in SA_IN;
 typedef struct sockaddr SA;
 
+struct terminal
+{
+    int id;
+    std::string name;
+    int socket;
+    std::thread th;
+};
+
+std::vector<terminal> clients;
+std::mutex clients_mtx, cout_mtx;
+
+
 
 
 int server(int argc, char *argv[])
 {
+
     int server_socket, client_socket, addr_size;
     SA_IN server_addr, client_addr;
 
@@ -39,49 +51,114 @@ int server(int argc, char *argv[])
 
     check(listen(server_socket, SERVER_BACKLOG), "Listen Failed!");
 
-    //while (true) {
-        printf("Waiting for connections...\n");
+    int client_id = 0; //number of connected clients
+    std::cout << "Waiting for connections...\n" << std::endl;
+
+
+    while (client_id < 2) {
         addr_size = sizeof(SA_IN);
         check((client_socket = accept(server_socket, (SA*)&client_addr, (socklen_t*)&addr_size)),
-                "Accept Failed!");
-        printf("Connected!\n");
+              "Accept failed.");
 
-        int *pclient = new int;
-        *pclient = client_socket;
-        std::thread th_client(handle_connection, pclient);
-        th_client.join();
+        std::cout << "Connected!\n" << std::endl;
 
-    //}
+        client_id++;
+        std::lock_guard<std::mutex> guard(clients_mtx);
+        std::thread th_client(handle_client, client_socket, client_id);
+        clients.push_back({client_id, std::string("Anonymous"), client_socket, std::move(th_client)});
+        clients_mtx.unlock();
+    }
+
+
+
+
+    for (auto& client : clients)
+    {
+        if(client.th.joinable())
+            client.th.join();
+    }
+
     close(server_socket);
+    std::cout << "Server closed..." << std::endl;
     return 0;
 }
 
-void* handle_connection(void* p_client_socket) {
-    int client_socket = *((int*)p_client_socket);
-    free(p_client_socket);
 
-    char buffer[BUFFSIZE];
-    size_t bytes_read;
-    size_t bytes_write;
-    int msgsize = 0;
-
-    bytes_read = read(client_socket, buffer, BUFFSIZE-1);
-    check(bytes_read, "Read Failed!");
-
-    printf("Client message: %s\n", buffer);
-
-    const char *msg = "I got your message";
-
-    bytes_write = write(client_socket, msg, strlen(msg) + 1);
-    if (bytes_write < 0) {
-        perror("Error writing to socket");
-        return nullptr;
+// Set name of client
+void set_name(int id, char name[])
+{
+    for(auto& client : clients)
+    {
+        if(client.id == id)
+        {
+            client.name = std::string(name);
+        }
     }
+}
 
-    close(client_socket);
-    printf("Closing connection...\n");
+int strToIntConverter(const std::string& str) {
+    std::stringstream converter(str);
+    int amount;
+    converter >> amount;
+    return amount;
+}
 
-    return nullptr;
+CMD_PAIR commandHandler(const std::string& str) {
+
+    std::string delimiter = " ";
+    std::string command = str.substr(0, str.find(delimiter));
+    std::string amount = str.substr(str.find(delimiter) + delimiter.length(), str.length());
+
+    return { command, amount };
+}
+
+void broadcast_message(const std::string& message, int sender_id)
+{
+    std::string msg = "EMPTY";
+    std::string name;
+
+    for (auto& client : clients) {
+        if (client.id == sender_id) {
+            name = client.name;
+        }
+    }
+    auto cmd = commandHandler(message);
+    auto amount = strToIntConverter(cmd.amount);
+
+    if (cmd.command == "check") {
+        msg = name + ": " + " checked...";
+    } else if (cmd.command == "fold") {
+        msg = name + ": " + " folded...";
+    } else if (cmd.command == "allin") {
+        msg = name + ": " + " get all-in...";
+    } else if (cmd.command == "raise") {
+        msg = name + ": " + " raised " + cmd.amount;
+    } else {
+        return;
+    }
+    
+    for(auto& client : clients)
+    {
+        if(client.id != sender_id)
+        {
+            send(client.socket, msg.c_str(), msg.size(), 0);
+        }
+    }
+}
+
+void end_connection(int id)
+{
+    for (int i = 0; i < clients.size(); i++)
+    {
+        if(clients[i].id == id)
+        {
+            std::lock_guard<std::mutex> guard(clients_mtx);
+            clients[i].th.detach();
+            clients.erase(clients.begin() + i);
+            close(clients[i].socket);
+            break;
+        }
+    }
 }
 
 int check(int exp, const char* msg) {
@@ -90,5 +167,31 @@ int check(int exp, const char* msg) {
         exit(1);
     }
     return exp;
+}
+
+void handle_client(int client_socket, int id) {
+
+    char name[MAX_LEN], client_msg[MAX_LEN];
+    recv(client_socket, name, sizeof(name),0);
+    set_name(id, name);
+    std::cout << name << std::endl;
+    std::string welcome_message = std::string(name) + " has joined";
+    broadcast_message(welcome_message, id);
+
+    while(true)
+    {
+        int bytes_received = recv(client_socket, client_msg, sizeof(client_msg),0);
+        check(bytes_received, "Read Failed!");
+
+        if(std::string(client_msg) == "q")
+        {
+            // Display leaving message
+            std::string message = std::string(name) + std::string(" has left");
+            broadcast_message(message,id);
+            end_connection(id);
+            return;
+        }
+        broadcast_message(std::string(client_msg), id);
+    }
 }
 
