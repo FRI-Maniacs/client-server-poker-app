@@ -95,14 +95,23 @@ int Player::isBroke() {
 
 const char* Player::viewCards() {
     char * str = new char[60];
-    this->isPlaying() ? "%s %s" : "Hráč %18s nie je v hre!";
-    if (!this->isPlaying()) sprintf(str, "Hráč %18s nie je zapojený do hry!", this->name);
+    if (!this->isPlaying()) sprintf(str, "Hráč %18s nie je do hry zapojený!", this->name);
     else sprintf(str, "%18s: %s %s", this->name, this->card1->toString(), this->card2->toString());
     return str;
 }
 
 char *Player::toString() {
-    char * str = new char[200];
+    char * str = new char[50];
     sprintf(str, "%18s: %d jednotiek", this->name, this->coins);
     return str;
+}
+
+bool Player::isAllIn(int bet) {
+    return this->coins <= bet;
+}
+
+int Player::allIn() {
+    int c = this->coins;
+    this->coins = 0;
+    return c;
 }

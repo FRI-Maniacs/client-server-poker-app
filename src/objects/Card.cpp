@@ -2,7 +2,6 @@
 // Created by Spravca on 1. 1. 2021.
 //
 
-#include <cstring>
 #include "../headers/Card.h"
 
 bool Card::isFlush(Card* c1, Card* c2, Card* c3, Card* c4, Card* c5) {
@@ -20,7 +19,7 @@ Card::Card(int num) {
     this->strength = (fixed % 13) + 1;
 }
 
-const char * Card::toString() {
+const char *Card::toString() {
     int size = this->face == Face::c10 ? 6 : 5;
     char* result = new char[size];
     // obrazok na karte je znak ktory zabera 3 miesta. Prve 2 miesta su vzdy -30 a -90

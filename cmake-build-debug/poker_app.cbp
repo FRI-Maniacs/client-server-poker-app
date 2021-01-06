@@ -105,6 +105,9 @@
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/Card.h">
 			<Option target="poker_app"/>
 		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/Command.h">
+			<Option target="poker_app"/>
+		</Unit>
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/headers/Player.h">
 			<Option target="poker_app"/>
 		</Unit>
@@ -124,6 +127,9 @@
 			<Option target="poker_app"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/Card.cpp">
+			<Option target="poker_app"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/Command.cpp">
 			<Option target="poker_app"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.87eUbnXTyU/src/objects/Player.cpp">

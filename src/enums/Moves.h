@@ -5,6 +5,6 @@
 #ifndef POKER_APP_MOVES_H
 #define POKER_APP_MOVES_H
 
-enum Move { CHECK, CALL, RAISE, FOLD };
+enum Move { CHECK, CALL, RAISE, ALL_IN, FOLD };
 
 #endif //POKER_APP_MOVES_H

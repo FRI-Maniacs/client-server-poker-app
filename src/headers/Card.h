@@ -14,8 +14,8 @@ private:
     Face face;
     int strength;
 public:
+    Card(int num);
     static bool isFlush(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5);
-    explicit Card(int num);
     const char* toString();
     int getCardStrength();
 

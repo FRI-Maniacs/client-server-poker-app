@@ -13,43 +13,42 @@
 #include "Card.h"
 #include "Player.h"
 #include "../enums/Seat.h"
+#define MSG_LEN 1024
 
 class PokerTable {
     enum GameStage {
-        STAGE0 = -1, // nie sú rozdané karty
-        STAGE1 = 0, // hráči majú rozdané karty
-        STAGE2 = 3, // na stole je trojica kariet
-        STAGE3 = 4, // na stole je štvorica kariet
-        STAGE4 = 5 // na stole je 5 kariet
-    };
-    enum GameState {
-        WAITING, // Kto sa pripojí, ten sa zúčastní hry
-        RESUMED, // hra beží alebo sa rozdáva. Kto sa pripojí, čaká na ďaľšiu hru
-        PAUSED, // Hráči nemôžu vykonávať žiadne ťahy. Maximálne sa odpojiť.
-        FINISHED // Hra skončila, prebieha vyhodnotenie
+        WAITING = -1, // nie sú rozdané karty
+        FIRST_BETS = 0, // hráči majú rozdané karty
+        THREE_CARDS = 3, // na stole je trojica kariet
+        FOUR_CARDS = 4, // na stole je štvorica kariet
+        FIVE_CARDS = 5, // na stole je 5 kariet
+        FINISHED = 6 // hra skoncila, prebieha vyhodnotenie
     };
 private:
     Card ** cardsOnTable;
     Player ** players;
-    Seat seats[MAX_PLAYERS];
     int playersCount;
     int currentPlayer;
     GameStage stage;
-    GameState state;
     int coins;
     int necessaryBet;
     int currentBet;
-    bool generateNumbers(int* array, int count) const;
+    static void generateNumbers(int* array, int count) ;
 public:
     PokerTable();
     ~PokerTable();
+
+    bool isWaiting();
+    bool isResumed();
+    bool isFinished();
+    int getBet();
 
     // zapis do pola hracov
     int connectPlayer(char* name);
     void disconnectPlayer(int pos);
 
     // priebeh hry
-    char* startGame();
+    bool startGame(char * msg);
     bool makeMove(Move, char * msg);
     void nextPlayer();
     int nextStage();
@@ -59,10 +58,7 @@ public:
     // citanie z pola hracov
     Player* getCurrentPlayer();
     Player* getPlayerAt(int index);
-
     const char* toString();
-
-    int findSeat();
 };
 
 

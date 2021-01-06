@@ -1,9 +1,10 @@
 #include <iostream>
 #include <cstring>
 #include "headers/PokerTable.h"
+#include "headers/Card.h"
+#include "headers/Command.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     // tento prikaz by sa mal za cely program vykonat len raz, a to po spusteni,
     srand(time(nullptr));
 
@@ -23,44 +24,24 @@ int main(int argc, char *argv[])
     for (int i = 0; i < 6; i++) players[i] = new char[18];
 
     strncat(players[0], "Šimon", 18);
-    strncat(players[0], "Paľo", 18);
-    strncat(players[0], "Peter", 18);
-    strncat(players[0], "Ivan", 18);
-    strncat(players[0], "Ľudka", 18);
-    strncat(players[0], "Radka", 18);
+    strncat(players[1], "Paľo", 18);
+    strncat(players[2], "Peter", 18);
+    strncat(players[3], "Ivan", 18);
+    strncat(players[4], "Ľudka", 18);
+    strncat(players[5], "Radka", 18);
 
     for (int i = 0; i<6; i++) pool->connectPlayer(players[i]);
     free(players);
     players = nullptr;
 
-    pool->startGame();
+    char *msg = new char[512];
+    char *cmd = new char[30];
 
-    char *msg = nullptr;
-    pool->makeMove(CALL, msg);
-    pool->makeMove(CALL, msg);
-    pool->makeMove(CALL, msg);
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-
-    pool->makeMove(RAISE, msg);
-    pool->makeMove(RAISE, msg);
-    pool->makeMove(CALL, msg);
-    pool->makeMove(CALL, msg);
-    pool->makeMove(FOLD, msg);
-    pool->makeMove(CALL, msg);
-
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(RAISE, msg);
-    pool->makeMove(RAISE, msg);
-    pool->makeMove(CALL, msg);
-
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-    pool->makeMove(CHECK, msg);
-
-    pool->chooseWinner();
+    do {
+        cmd[0] = '\0';
+        scanf("%s", cmd);
+        Command::commitAction(cmd, pool, msg);
+        printf("%s\n", msg);
+    } while (strcmp(msg, CMD_Q) != 0);
+    return 0;
 }

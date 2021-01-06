@@ -31,9 +31,11 @@ public:
     Card **getCards();
     int call(int bet);
     int raise(int bet);
+    int allIn();
     void fold();
     char* toString();
     int countMoney() const;
+    bool isAllIn(int bet);
     const char *getName();
 };
 

@@ -1,11 +1,11 @@
 //
 // Created by Spravca on 2. 1. 2021.
 //
-#include <cstring>
+#include <cstdio>
 #include "../headers/Card.h"
 #include "../headers/PokerHand.h"
 
-PokerHand* PokerHand::getPokerHand(Card** playerCards, Card** tableCards, int count) {
+PokerHand* PokerHand::getPokerHand(Card **playerCards, Card **tableCards, int count) {
     if (count < 3 || count > 5 || playerCards == nullptr || tableCards == nullptr) return nullptr;
     if (playerCards[0] == nullptr && playerCards[1] == nullptr) return nullptr;
     for (int i = 0; i < count; i++) if (tableCards[i] == nullptr) return nullptr;
@@ -35,9 +35,9 @@ PokerHand* PokerHand::getPokerHand(Card** playerCards, Card** tableCards, int co
 
                 PokerHand::computeRank(comb, tmpH, tmpS, tmpC);
 
-                int bigger = tmpH > rank;
-                int stronger = tmpH == rank && tmpS > strength0;
-                if (bigger) rank = tmpH;
+                int bigger = tmpH > rank0;
+                int stronger = tmpH == rank0 && tmpS > strength0;
+                if (bigger) rank0 = tmpH;
                 if (bigger || stronger) {
                     strength0 = tmpS;
                     delete[] desc0;
@@ -57,7 +57,6 @@ PokerHand::PokerHand(HandRanking rank, int strength, const char *desc) {
 }
 
 void PokerHand::computeRank(Card ** cards, HandRanking& rank, int& strength, char* desc) {
-    delete desc;
     // zoradenie kariet pre lahsiu detekciu kombinacii
     for (int i = 0; i < 5; ++i) {
         for (int j = i + 1; j < 5; ++j) {
@@ -131,28 +130,20 @@ void PokerHand::computeRank(Card ** cards, HandRanking& rank, int& strength, cha
     }
 
     int len = 100;
-    char* str = new char[len];
-    for (int i = 0; i < 5; i++) {
-        strncat(str, cards[i]->toString(), len - strlen(str));
-        strncat(str, i == 5 ? " " : " | ", len - strlen(str));
-    }
-    len -= strlen(str);
+    desc[0] = '\0';
+    for (int i = 0; i < 5; i++)
+        sprintf(desc, i == 5 ? "%s " : "%s | ", cards[i]->toString());
     switch (rank) {
-        case STRAIGHT_FLUSH: strncat(str, "Postupka vo farbe", len); break;
-        case FOUR_OF_A_KIND: strncat(str, "Štvorica", len); break;
-        case FULL_HOUSE: strncat(str, "Full House", len); break;
-        case FLUSH: strncat(str, "Farba", len); break;
-        case STRAIGHT: strncat(str, "Postupka", len); break;
-        case THREE_OF_A_KIND: strncat(str, "Trojica", len); break;
-        case TWO_PAIRS: strncat(str, "Dva páry", len); break;
-        case ONE_PAIR: strncat(str, "Jeden pár", len); break;
-        case HIGH_CARD: strncat(str, "Najvyššia karta", len); break;
+        case STRAIGHT_FLUSH: sprintf(desc, "Postupka vo farbe"); break;
+        case FOUR_OF_A_KIND: sprintf(desc, "Štvorica"); break;
+        case FULL_HOUSE: sprintf(desc, "Full House"); break;
+        case FLUSH: sprintf(desc, "Farba"); break;
+        case STRAIGHT: sprintf(desc, "Postupka"); break;
+        case THREE_OF_A_KIND: sprintf(desc, "Trojica"); break;
+        case TWO_PAIRS: sprintf(desc, "Dva páry"); break;
+        case ONE_PAIR: sprintf(desc, "Jeden pár"); break;
+        case HIGH_CARD: sprintf(desc, "Najvyššia karta"); break;
     }
-
-    len = strlen(str);
-    desc = new char[len];
-    strncat(desc, str, len);
-    delete[] str;
 }
 
 const char * PokerHand::toString() {

@@ -204,6 +204,33 @@ src/objects/Card.cpp.s:
 	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Card.cpp.s
 .PHONY : src/objects/Card.cpp.s
 
+src/objects/Command.o: src/objects/Command.cpp.o
+
+.PHONY : src/objects/Command.o
+
+# target to build an object file
+src/objects/Command.cpp.o:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Command.cpp.o
+.PHONY : src/objects/Command.cpp.o
+
+src/objects/Command.i: src/objects/Command.cpp.i
+
+.PHONY : src/objects/Command.i
+
+# target to preprocess a source file
+src/objects/Command.cpp.i:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Command.cpp.i
+.PHONY : src/objects/Command.cpp.i
+
+src/objects/Command.s: src/objects/Command.cpp.s
+
+.PHONY : src/objects/Command.s
+
+# target to generate assembly for a file
+src/objects/Command.cpp.s:
+	$(MAKE) -f CMakeFiles/poker_app.dir/build.make CMakeFiles/poker_app.dir/src/objects/Command.cpp.s
+.PHONY : src/objects/Command.cpp.s
+
 src/objects/Player.o: src/objects/Player.cpp.o
 
 .PHONY : src/objects/Player.o
@@ -330,6 +357,9 @@ help:
 	@echo "... src/objects/Card.o"
 	@echo "... src/objects/Card.i"
 	@echo "... src/objects/Card.s"
+	@echo "... src/objects/Command.o"
+	@echo "... src/objects/Command.i"
+	@echo "... src/objects/Command.s"
 	@echo "... src/objects/Player.o"
 	@echo "... src/objects/Player.i"
 	@echo "... src/objects/Player.s"

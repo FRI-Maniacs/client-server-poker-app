@@ -32,19 +32,33 @@ iostream
 ./headers/client.h
 /tmp/tmp.87eUbnXTyU/src/./headers/client.h
 
-/tmp/tmp.87eUbnXTyU/src/enums/face.h
+/tmp/tmp.87eUbnXTyU/src/enums/Face.h
 
-/tmp/tmp.87eUbnXTyU/src/enums/hand-ranking.h
+/tmp/tmp.87eUbnXTyU/src/enums/HandRanking.h
 
-/tmp/tmp.87eUbnXTyU/src/enums/moves.h
+/tmp/tmp.87eUbnXTyU/src/enums/Moves.h
 
-/tmp/tmp.87eUbnXTyU/src/enums/shape.h
+/tmp/tmp.87eUbnXTyU/src/enums/Seat.h
+
+/tmp/tmp.87eUbnXTyU/src/enums/Suit.h
 
 /tmp/tmp.87eUbnXTyU/src/headers/Card.h
-../enums/face.h
-/tmp/tmp.87eUbnXTyU/src/enums/face.h
-../enums/shape.h
-/tmp/tmp.87eUbnXTyU/src/enums/shape.h
+../enums/Face.h
+/tmp/tmp.87eUbnXTyU/src/enums/Face.h
+../enums/Suit.h
+/tmp/tmp.87eUbnXTyU/src/enums/Suit.h
+
+/tmp/tmp.87eUbnXTyU/src/headers/Command.cpp
+cstring
+-
+cstdio
+-
+Command.h
+/tmp/tmp.87eUbnXTyU/src/headers/Command.h
+
+/tmp/tmp.87eUbnXTyU/src/headers/Command.h
+PokerTable.h
+/tmp/tmp.87eUbnXTyU/src/headers/PokerTable.h
 
 /tmp/tmp.87eUbnXTyU/src/headers/Player.h
 cstdlib
@@ -59,30 +73,30 @@ Card.h
 /tmp/tmp.87eUbnXTyU/src/headers/Card.h
 Player.h
 /tmp/tmp.87eUbnXTyU/src/headers/Player.h
-../enums/hand-ranking.h
-/tmp/tmp.87eUbnXTyU/src/enums/hand-ranking.h
+../enums/HandRanking.h
+/tmp/tmp.87eUbnXTyU/src/enums/HandRanking.h
 
 /tmp/tmp.87eUbnXTyU/src/headers/PokerTable.h
-../enums/hand-ranking.h
-/tmp/tmp.87eUbnXTyU/src/enums/hand-ranking.h
-../enums/moves.h
-/tmp/tmp.87eUbnXTyU/src/enums/moves.h
+../enums/HandRanking.h
+/tmp/tmp.87eUbnXTyU/src/enums/HandRanking.h
+../enums/Moves.h
+/tmp/tmp.87eUbnXTyU/src/enums/Moves.h
 Card.h
 /tmp/tmp.87eUbnXTyU/src/headers/Card.h
 Player.h
 /tmp/tmp.87eUbnXTyU/src/headers/Player.h
+../enums/Seat.h
+/tmp/tmp.87eUbnXTyU/src/enums/Seat.h
 
 /tmp/tmp.87eUbnXTyU/src/main.cpp
 iostream
+-
+cstring
 -
 headers/PokerTable.h
 /tmp/tmp.87eUbnXTyU/src/headers/PokerTable.h
 
 /tmp/tmp.87eUbnXTyU/src/objects/Card.cpp
-cstring
--
-../headers/Card.h
-/tmp/tmp.87eUbnXTyU/src/headers/Card.h
 
 /tmp/tmp.87eUbnXTyU/src/objects/Player.cpp
 cstring
@@ -93,7 +107,7 @@ cstdio
 /tmp/tmp.87eUbnXTyU/src/headers/Player.h
 
 /tmp/tmp.87eUbnXTyU/src/objects/PokerHand.cpp
-cstring
+cstdio
 -
 ../headers/Card.h
 /tmp/tmp.87eUbnXTyU/src/headers/Card.h
