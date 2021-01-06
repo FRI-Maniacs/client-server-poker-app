@@ -84,21 +84,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/tmp/tmp.ygOnv25QWT/src/client.cpp">
-			<Option target="poker_app"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ygOnv25QWT/src/headers/client.h">
-			<Option target="poker_app"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ygOnv25QWT/src/headers/server.h">
-			<Option target="poker_app"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ygOnv25QWT/src/main.cpp">
-			<Option target="poker_app"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.ygOnv25QWT/src/server.cpp">
-			<Option target="poker_app"/>
-		</Unit>
 		<Unit filename="/tmp/tmp.ygOnv25QWT/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
