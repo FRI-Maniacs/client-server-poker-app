@@ -12,10 +12,10 @@
 #include <cerrno>
 #include <thread>
 #include <csignal>
+#include "./headers/client.h"
 #include <mutex>
 
 #define MAX_LEN 200
-#include "./headers/client.h"
 
 std::thread t_send, t_recv;
 bool exit_flag = false;
@@ -51,13 +51,12 @@ int client(int argc, char* argv[]) {
         perror("connect: ");
         exit(-1);
     }
+
     signal(SIGINT, catch_ctrl_c);
     char name[MAX_LEN];
-    std::cout<<"Enter your name : ";
+    std::cout<<"Enter your name and amount of players: ";
     std::cin.getline(name,MAX_LEN);
     send(client_socket, name, sizeof(name),0);
-
-    std::cout<<"\n\t  ====== Welcome to the Poker game ======   " << std::endl;
 
     std::thread t1(send_message, client_socket);
     std::thread t2(recv_message, client_socket);
@@ -72,6 +71,7 @@ int client(int argc, char* argv[]) {
 
     return 0;
 }
+
 
 void catch_ctrl_c(int signal)
 {
@@ -129,8 +129,8 @@ void recv_message(int client_sock)
         eraseText(6);
         std::cout<< msg << std::endl;
 
-        std::cout<< "You : ";
+        std::cout << "You : ";
         fflush(stdout);
+        bzero(msg, MAX_LEN);
     }
 }
-
