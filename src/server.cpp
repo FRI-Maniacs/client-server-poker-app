@@ -57,6 +57,8 @@ int server(int argc, char *argv[])
     //int client_id = 0; //number of connected clients
     std::cout << "Waiting for connections...\n" << std::endl;
 
+    //creator zada pocet hracov
+
     for (;;) {
         if (connected_players == max_players) break;
         addr_size = sizeof(SA_IN);
@@ -69,6 +71,7 @@ int server(int argc, char *argv[])
         clients.push_back({connected_players, std::string("Anonymous"), client_socket});
         connected_players++;
     }
+
     broadcast_message(std::string("Wait for players to join..."));
     for(int i = 0; i < THREAD_POOL_SIZE; i++) {
         if (thread_pool[i].joinable()) thread_pool[i].join();
@@ -78,8 +81,9 @@ int server(int argc, char *argv[])
     std::string on_turn = "Its your turn\n";
     std::string off_turn = " is on turn\n";
 
-    //stavky
+
     for (int fase = 0; fase < 3; fase++) {
+        //stavky
         for (auto &client : clients) {
             send(client.socket, on_turn.c_str(), on_turn.size(), 0);
             broadcast_message(std::string(client.name + off_turn), client.id);
@@ -115,6 +119,8 @@ int server(int argc, char *argv[])
 
     close(server_socket);
     std::cout << "Server closed..." << std::endl;
+    delete[] thread_pool;
+
     return 0;
 }
 
