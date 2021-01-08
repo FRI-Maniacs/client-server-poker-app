@@ -1,4 +1,15 @@
 /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /tmp/tmp.87eUbnXTyU
 -- Configuring done
+CMake Error at CMakeLists.txt:6 (add_executable):
+  Cannot find source file:
+
+    src/headers/server.h src/headers/client.h
+
+  Tried extensions .c .C .c++ .cc .cpp .cxx .m .M .mm .h .hh .h++ .hm .hpp
+  .hxx .in .txx
+
+
+CMake Error: CMake can not determine linker language for target: poker_app
+CMake Error: Cannot determine link language for target "poker_app".
 -- Generating done
 -- Build files have been written to: /tmp/tmp.87eUbnXTyU/cmake-build-debug

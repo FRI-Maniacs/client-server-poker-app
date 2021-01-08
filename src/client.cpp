@@ -1,31 +1,31 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <bits/stdc++.h>
+#include <arpa/inet.h>
 #include <netdb.h>
+#include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <unistd.h>
 #include <iostream>
+#include <cerrno>
+#include <thread>
+#include <csignal>
 #include "./headers/client.h"
+#include <mutex>
 
-int client(int argc, char* argv[])
-{
-    int sockfd, n;
-    struct sockaddr_in serv_addr;
-    struct hostent* server;
+#define MAX_LEN 200
 
-    char buffer[256];
+std::thread t_send, t_recv;
+bool exit_flag = false;
+int client_socket;
+struct sockaddr_in serv_addr;
+struct hostent* server;
 
-    if (argc < 3)
-    {
-        fprintf(stderr,"usage %s hostname port\n", argv[0]);
-        return 1;
-    }
+int client(int argc, char* argv[]) {
 
-    server = gethostbyname(argv[2]); //vrati IP servera na zaklade DNS
-    if (server == nullptr)
-    {
+    if ((server = gethostbyname(argv[2])) == nullptr) {
         fprintf(stderr, "Error, no such host\n");
         return 2;
     }
@@ -39,48 +39,98 @@ int client(int argc, char* argv[])
     );
     serv_addr.sin_port = htons(atoi(argv[3])); //port na ktorom pocuva server
 
-    //vytvaram spojovaci socket ako na server-side
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0)
+
+    if((client_socket = socket(AF_INET,SOCK_STREAM,0)) == -1)
     {
-        perror("Error creating socket");
-        return 3;
+        perror("socket: ");
+        exit(-1);
     }
 
-    //pripoj sa cez vytvoreny socket na server, o ktorom udaje su v structe serv_addr
-    if(connect(sockfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0)
+    if((connect(client_socket, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr_in))) == -1)
     {
-        perror("Error connecting to socket");
-        return 4;
+        perror("connect: ");
+        exit(-1);
     }
-    //for(;;) {
-        printf("Please enter a message: ");
-        bzero(buffer, 256); //vynuluj buffer
-        fgets(buffer, 255, stdin); //do buffera ulozi input pouzivatela
-        /*
-        if (std::string(buffer) == "q"){
-            std::cout<<"Client quit" <<std::endl;
-            break;
-        }*/
 
-        n = write(sockfd, buffer, strlen(buffer)); //zapis spravu do socketu o velkosti buffera
-        if (n < 0) {
-            perror("Error writing to socket");
-            return 5;
-        }
+    signal(SIGINT, catch_ctrl_c);
+    char name[MAX_LEN];
+    std::cout<<"Enter your name and amount of players: ";
+    std::cin.getline(name,MAX_LEN);
+    send(client_socket, name, sizeof(name),0);
 
-        bzero(buffer, 256); //vynuluj buffer
-        n = read(sockfd, buffer, 255); //citaj spravu zo socketu a uloz ju do buffera
-        if (n < 0) {
-            perror("Error reading from socket");
-            return 6;
-        }
+    std::thread t1(send_message, client_socket);
+    std::thread t2(recv_message, client_socket);
 
-        printf("%s\n", buffer);
-    //}
+    t_send = move(t1);
+    t_recv = move(t2);
 
-    close(sockfd); //zavri spojovaci socket
+    if (t_send.joinable())
+        t_send.join();
+    if (t_recv.joinable())
+        t_recv.join();
 
     return 0;
 }
 
+
+void catch_ctrl_c(int signal)
+{
+    char str[MAX_LEN] = "q";
+    send(client_socket, str, sizeof(str),0);
+    exit_flag=true;
+    t_send.detach();
+    t_recv.detach();
+
+    close(client_socket);
+    exit(signal);
+}
+
+
+int eraseText(int cnt)
+{
+    char back_space = 8;
+    for(int i = 0; i < cnt; i++)
+    {
+        std::cout << back_space;
+    }
+}
+
+// Send message to everyone
+void send_message(int client_sock)
+{
+    while(true)
+    {
+        std::cout << "You: ";
+        char msg[MAX_LEN];
+        std::cin.getline(msg, MAX_LEN);
+
+        send(client_sock, msg, sizeof(msg), 0);
+        if (std::string(msg) == "q") {
+            exit_flag = true;
+            t_recv.detach();
+            close(client_sock);
+            return;
+        }
+    }
+}
+
+// Receive message
+void recv_message(int client_sock)
+{
+    while(true)
+    {
+        if(exit_flag)
+            return;
+        char msg[MAX_LEN];
+
+        int bytes_received = recv(client_sock, msg ,sizeof(msg),0);
+        if(bytes_received <= 0) continue;
+
+        eraseText(6);
+        std::cout<< msg << std::endl;
+
+        std::cout << "You : ";
+        fflush(stdout);
+        bzero(msg, MAX_LEN);
+    }
+}

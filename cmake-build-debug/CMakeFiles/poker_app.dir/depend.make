@@ -30,7 +30,6 @@ CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.o: ../src/objects/PokerHand.c
 
 CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/headers/PokerTable.h
 CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/objects/PokerTable.cpp
-
 CMakeFiles/poker_app.dir/src/server.cpp.o: ../src/./headers/server.h
 CMakeFiles/poker_app.dir/src/server.cpp.o: ../src/server.cpp
 
