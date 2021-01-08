@@ -1,7 +1,7 @@
 //
 // Created by Spravca on 2. 1. 2021.
 //
-#include <cstdio>
+#include <cstring>
 #include "../headers/Card.h"
 #include "../headers/PokerHand.h"
 
@@ -13,7 +13,7 @@ PokerHand* PokerHand::getPokerHand(Card **playerCards, Card **tableCards, int co
     Card** comb = static_cast<Card**>(malloc(sizeof(Card*)*5));
     HandRanking rank0 = HIGH_CARD;
     int strength0 = 0;
-    char *desc0 = nullptr;
+    char *desc0 = new char[43];
     if (count == 3) {
         comb[0] = tableCards[0];
         comb[1] = tableCards[1];
@@ -26,13 +26,13 @@ PokerHand* PokerHand::getPokerHand(Card **playerCards, Card **tableCards, int co
         for (int i = 0; i < count; i++) {
             for (int j = count == 4 ? 4 : i + 1; j < 5; j++) {
                 for (int k = 0; k < 5; k++) {
-                    comb[k] = i == k ? playerCards[k] : j == k
-                            ? playerCards[k] : tableCards[k];
+                    comb[k] = i == k ? playerCards[0] : j == k
+                            ? playerCards[1] : tableCards[k];
                 }
                 int tmpS = 0;
                 HandRanking tmpH = HIGH_CARD;
-                char* tmpC = nullptr;
-
+                char *tmpC = new char[43];
+                tmpC[0] = '\0';
                 PokerHand::computeRank(comb, tmpH, tmpS, tmpC);
 
                 int bigger = tmpH > rank0;
@@ -40,13 +40,12 @@ PokerHand* PokerHand::getPokerHand(Card **playerCards, Card **tableCards, int co
                 if (bigger) rank0 = tmpH;
                 if (bigger || stronger) {
                     strength0 = tmpS;
-                    delete[] desc0;
-                    desc0 = tmpC;
+                    desc0[0] = '\0';
+                    strncat(desc0, tmpC, strlen(tmpC));
                 }
             }
         }
     }
-    if (desc0 == nullptr) return nullptr;
     return new PokerHand(rank0, strength0, desc0);
 }
 
@@ -60,8 +59,8 @@ void PokerHand::computeRank(Card ** cards, HandRanking& rank, int& strength, cha
     // zoradenie kariet pre lahsiu detekciu kombinacii
     for (int i = 0; i < 5; ++i) {
         for (int j = i + 1; j < 5; ++j) {
-            if ((Card *)cards[i] > (Card *)cards[j]) {
-                Card * tmp = cards[i];
+            if (cards[i] > cards[j]) {
+                Card *tmp = cards[i];
                 cards[i] = cards[j];
                 cards[j] = tmp;
             }
@@ -131,18 +130,20 @@ void PokerHand::computeRank(Card ** cards, HandRanking& rank, int& strength, cha
 
     int len = 100;
     desc[0] = '\0';
-    for (int i = 0; i < 5; i++)
-        sprintf(desc, i == 5 ? "%s " : "%s | ", cards[i]->toString());
+    for (int i = 0; i < 5; i++) {
+        strcat(desc, cards[i]->toString());
+        strcat(desc, i == 5 ? " " : " | ");
+    }
     switch (rank) {
-        case STRAIGHT_FLUSH: sprintf(desc, "Postupka vo farbe"); break;
-        case FOUR_OF_A_KIND: sprintf(desc, "Štvorica"); break;
-        case FULL_HOUSE: sprintf(desc, "Full House"); break;
-        case FLUSH: sprintf(desc, "Farba"); break;
-        case STRAIGHT: sprintf(desc, "Postupka"); break;
-        case THREE_OF_A_KIND: sprintf(desc, "Trojica"); break;
-        case TWO_PAIRS: sprintf(desc, "Dva páry"); break;
-        case ONE_PAIR: sprintf(desc, "Jeden pár"); break;
-        case HIGH_CARD: sprintf(desc, "Najvyššia karta"); break;
+        case STRAIGHT_FLUSH: strcat(desc, "Postupka vo farbe"); break;
+        case FOUR_OF_A_KIND: strcat(desc, "Štvorica"); break;
+        case FULL_HOUSE: strcat(desc, "Full House"); break;
+        case FLUSH: strcat(desc, "Farba"); break;
+        case STRAIGHT: strcat(desc, "Postupka"); break;
+        case THREE_OF_A_KIND: strcat(desc, "Trojica"); break;
+        case TWO_PAIRS: strcat(desc, "Dva páry"); break;
+        case ONE_PAIR: strcat(desc, "Jeden pár"); break;
+        case HIGH_CARD: strcat(desc, "Najvyššia karta"); break;
     }
 }
 

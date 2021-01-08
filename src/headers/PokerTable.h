@@ -12,8 +12,6 @@
 #include "../enums/Moves.h"
 #include "Card.h"
 #include "Player.h"
-#include "../enums/Seat.h"
-#define MSG_LEN 1024
 
 class PokerTable {
     enum GameStage {
@@ -33,7 +31,7 @@ private:
     int coins;
     int necessaryBet;
     int currentBet;
-    static void generateNumbers(int* array, int count) ;
+    static int* generateNumbers(int count);
 public:
     PokerTable();
     ~PokerTable();
@@ -44,7 +42,7 @@ public:
     int getBet();
 
     // zapis do pola hracov
-    int connectPlayer(char* name);
+    int connectPlayer(const char* name);
     void disconnectPlayer(int pos);
 
     // priebeh hry
@@ -59,6 +57,14 @@ public:
     Player* getCurrentPlayer();
     Player* getPlayerAt(int index);
     const char* toString();
+
+    const char * viewCards(int player);
+
+    const char *tableCardsToString();
+
+    const char *stageToString();
+
+    const char *activePlayersToString();
 };
 
 

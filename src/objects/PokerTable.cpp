@@ -6,7 +6,6 @@
 #include <cstdio>
 #include <cstring>
 #include "../headers/PokerTable.h"
-#include "../headers/Card.h"
 
 PokerTable::PokerTable() {
     this->cardsOnTable = static_cast<Card **>(malloc(sizeof(Card *) * 5));
@@ -22,12 +21,11 @@ PokerTable::PokerTable() {
 }
 
 bool PokerTable::isWaiting() {
-    return this->stage == this->isFinished();
+    return this->stage == WAITING;
 }
 
 bool PokerTable::isResumed() {
-    auto s = this->stage;
-    return s > WAITING && s < FINISHED;
+    return this->stage != WAITING && this->stage != FINISHED;
 }
 
 bool PokerTable::isFinished() {
@@ -44,7 +42,9 @@ int PokerTable::getBet() {
     return this->currentBet;
 }
 
-void PokerTable::generateNumbers(int *array, int count) {
+int* PokerTable::generateNumbers(int count) {
+    if (count <= 0 || count > 52) return nullptr;
+    int *array = new int[count];
     int cardsLeft = 52;
     int cardsTaken[52] = { 0 };
 
@@ -56,30 +56,34 @@ void PokerTable::generateNumbers(int *array, int count) {
         cardsTaken[n] ++;
         cardsLeft --;
     }
+    return array;
 }
 
 bool PokerTable::startGame(char* str) {
     if (this->isFinished()) sprintf(str, "Čaká sa na vyhodnotenie hry!");
     else if (!this->isWaiting()) sprintf(str, "Hra už beží!");
-    else if (playersCount < MIN_PLAYERS) sprintf(str, "Čaká sa na pripojenie hráčov!");
+    else if (this->playersCount < MIN_PLAYERS) sprintf(str, "Čaká sa na pripojenie hráčov!");
     else {
-        int pCount = this->playersCount;
-        int cCount = pCount * 2 + 5;
-        int* cardNums = new int[cCount];
-        generateNumbers(cardNums, cCount);
+        int cCount = this->playersCount * 2 + 5;
+        int* cardNums = generateNumbers(cCount);
 
-        for (int i = 0; i < pCount; i++) {
+        this->currentPlayer = MAX_PLAYERS;
+        for (int i = 0; i < MAX_PLAYERS; i++) {
             Player* p = this->players[i];
-            if (p != nullptr) p->receiveCards(cardNums[i * 2], cardNums[i * 2 + 1]);
+            if (p != nullptr) {
+                p->receiveCards(cardNums[i * 2], cardNums[i * 2 + 1]);
+                if (this->currentPlayer > i) this->currentPlayer = i;
+            }
         }
 
+        int from = cCount - 5;
         for (int i = cCount - 5; i < cCount; i++) {
-            delete this->cardsOnTable[i];
-            this->cardsOnTable[i] = new Card(cardNums[i]);
+            delete this->cardsOnTable[i - from];
+            this->cardsOnTable[i - from] = new Card(cardNums[i]);
         }
         delete[] cardNums;
         nextStage();
-        sprintf(str, "Hra začala!");
+        sprintf(str, "Hra sa úspešne spustila!");
         return true;
     }
     return false;
@@ -89,7 +93,8 @@ void PokerTable::nextPlayer() {
     if (isResumed()) {
         if (this->playersCount == 0) this->currentPlayer = 0;
         else {
-            int st = this->currentPlayer + 1;
+            int st = (this->currentPlayer + 1) % MAX_PLAYERS;
+            if (st < 0) st += MAX_PLAYERS;
             int end = st + MAX_PLAYERS;
             for (; st <= end; st++) {
                 int i = st % MAX_PLAYERS;
@@ -101,12 +106,65 @@ void PokerTable::nextPlayer() {
                 }
             }
         }
-        if (this->playersCount <= 1) {
-            finishGame();
-            getCurrentPlayer()->gain(this->coins);
-            if (this->playersCount == 0) nextStage();
+    }
+}
+
+const char *PokerTable::tableCardsToString() {
+    char *str = new char[60];
+    bool n3 = this->stage >= GameStage::THREE_CARDS;
+    bool n4 = this->stage >= GameStage::FOUR_CARDS;
+    bool n5 = this->stage >= GameStage::FIVE_CARDS;
+
+    const char *c1 = n3 ? this->cardsOnTable[0]->toString() : nullptr;
+    const char *c2 = n3 ? this->cardsOnTable[1]->toString() : nullptr;
+    const char *c3 = n3 ? this->cardsOnTable[2]->toString() : nullptr;
+    const char *c4 = n4 ? this->cardsOnTable[3]->toString() : nullptr;
+    const char *c5 = n5 ? this->cardsOnTable[4]->toString() : nullptr;
+
+    char *cards = new char[43];
+    if (n5) sprintf(cards, "%s | %s | %s | %s | %s", c5, c4, c3, c2, c1);
+    else if (n4) sprintf(cards, "%s | %s | %s | %s", c4, c3, c2, c1);
+    else if (n3) sprintf(cards, "%s | %s | %s", c3, c2, c1);
+    else sprintf(cards, "Prázdny stôl");
+    printf(str, "Karty na stole: %s", cards);
+    return str;
+}
+
+const char *PokerTable::stageToString() {
+    switch (this->stage) {
+        case WAITING : return "Stav: Čakanie";
+        case FIRST_BETS : return "Stav: 1. kolo - povinné stávky";
+        case THREE_CARDS : return "Stav: 2. kolo - 3 karty na stole";
+        case FOUR_CARDS : return "Stav: 3. kolo - 4 karty na stole";
+        case FIVE_CARDS : return "Stav: 4. kolo - 5 kariet na stole";
+        case FINISHED : return "Stav: Finále - Určovanie víťaza";
+    }
+}
+
+const char *PokerTable::activePlayersToString() {
+    char *str = new char[400];
+    sprintf(str, "Pripojení hráči:");
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        auto *p = this->players[i];
+        if (p != nullptr) {
+            char *pos = new char[60];
+            sprintf(pos, "\nMiesto %d: %18s | %d jednotiek", i + 1, p->getName(), p->countMoney());
+            strcat(str, pos);
+            if (i == this->currentPlayer) strcat(str, " | na ťahu");
         }
     }
+    return str;
+}
+
+const char *PokerTable::viewCards(int player) {
+    if (player >= 0 && player < MIN_PLAYERS && this->players[player] != nullptr) {
+        const char* pCards = this->players[player]->viewCards();
+        const char* tCards = this->tableCardsToString();
+        char *result = new char[128];
+        sprintf(result, "%s\n%s", pCards, tCards);
+        return result;
+    }
+    return "Hráč sa stratil!";
 }
 
 Player* PokerTable::getPlayerAt(int index) {
@@ -116,17 +174,14 @@ Player* PokerTable::getPlayerAt(int index) {
 }
 
 Player* PokerTable::getCurrentPlayer() {
-    if (this->playersCount == 0) return nullptr;
-    int pos = this->currentPlayer;
-    for (;pos < pos + MAX_PLAYERS; pos++) {
-        auto p = this->players[pos % MAX_PLAYERS];
-        if (p != nullptr) return p;
-    }
-    return nullptr;
+    if (this->currentPlayer < 0) return nullptr;
+    if (this->currentPlayer >= MAX_PLAYERS) return nullptr;
+    return this->players[this->currentPlayer];
 }
 
 bool PokerTable::makeMove(Move move, char* msg) {
-    Player* p = getCurrentPlayer();
+    int len = 128;
+    auto* p = this->players[this->currentPlayer < 0 ? 0 : this->currentPlayer >= MAX_PLAYERS ? MAX_PLAYERS - 1 : this->currentPlayer];
     if (p == nullptr || !p->isPlaying()) {
         sprintf(msg, "Nie je prítomný hráč!");
         return false;
@@ -144,20 +199,20 @@ bool PokerTable::makeMove(Move move, char* msg) {
         int nb = this->necessaryBet > 0;
         int cb = this->currentBet > 0;
         sprintf(msg, "%6s ", "CHECK");
-        sprintf(msg, nb || cb ? " (zamietnuté): " : ": ");
-        if (nb) sprintf(msg, "Ste viazaný povinnou stávkou!");
-        else if (cb) sprintf(msg, "Dorovnajte stávky alebo sa vzdajte kariet!");
+        strncat(msg, nb || cb ? " (zamietnuté): " : ": ", len - strlen(msg));
+        if (nb) strncat(msg, "Ste viazaný povinnou stávkou!", len - strlen(msg));
+        else if (cb) strncat(msg, "Dorovnajte stávky alebo sa vzdajte kariet!", len - strlen(msg));
         return !nb && !cb;
     }
     else if (move == FOLD) {
-        sprintf(msg, "%6s Zložili ste karty!", "FOLD");
+        sprintf(msg, "%6s Zložené karty!", "FOLD");
         return true;
     }
     else if (move == ALL_IN) {
         int amount = p->allIn();
         this->coins += amount;
         this->currentBet = amount;
-        sprintf(msg, "%6s Vložili ste všetko (%d)!", "ALL_IN", amount);
+        sprintf(msg, "%6s: %d jednotiek!", "ALL_IN", amount);
         return true;
     }
     else if (move == CALL) {
@@ -173,7 +228,7 @@ bool PokerTable::makeMove(Move move, char* msg) {
             this->necessaryBet--;
             return true;
         }
-        else sprintf(msg, "Nikto pred vami neurčil stávku!");
+        else sprintf(msg, "Nebola nikým určená stávka!");
         return false;
     }
     else if (move == RAISE) {
@@ -182,7 +237,7 @@ bool PokerTable::makeMove(Move move, char* msg) {
         bool isAllIn = p->isAllIn(bet / 2);
         bool isAllIn2 = isAllIn && p->isAllIn(bet);
         sprintf(msg, isAllIn ? "%6s (zamietnuté): " : "%6s: ", isAllIn2 ? "ALL IN" : "RAISE");
-        if (isAllIn) sprintf(msg, "Nemáte dostatok prostriedkov na zvýšenie stávky!");
+        if (isAllIn) strncat(msg, "Nedostatok prostriedkov na zvýšenie stávky!", 48);
         else {
             this->currentBet = p->raise(bet);
             this->coins += this->currentBet;
@@ -198,22 +253,13 @@ PokerTable::~PokerTable() {
 }
 
 const char * PokerTable::toString() {
-    if (this->stage == GameStage::WAITING) return "Hra nie je aktívna!";
-    if (this->stage == GameStage::FIRST_BETS) return "Žiadne karty ešte nie sú na stole!";
-    int size = 100;
-    char * str = new char[size];
-    strncat(str, "Karty na stole: ", size - strlen(str));
-    const char *c1 = this->cardsOnTable[0]->toString();
-    const char *c2 = this->cardsOnTable[1]->toString();
-    const char *c3 = this->cardsOnTable[2]->toString();
-    const char *c4 = this->stage >= GameStage::FOUR_CARDS ? this->cardsOnTable[3]->toString() : nullptr;
-    const char *c5 = this->stage >= GameStage::FIVE_CARDS ? this->cardsOnTable[4]->toString() : nullptr;
-    if (this->stage == GameStage::THREE_CARDS)
-        sprintf(str, "%s | %s | %s", c3, c2, c1);
-    else if (this->stage == GameStage::FOUR_CARDS)
-        sprintf(str, "%s | %s | %s | %s", c4, c3, c2, c1);
-    else if (this->stage == GameStage::FIVE_CARDS)
-        sprintf(str, "%s | %s | %s | %s | %s", c5, c4, c3, c2, c1);
+    const char *stg = this->stageToString();
+    const char *apl = this->activePlayersToString();
+    const char *crd = this->tableCardsToString();
+    int c = this->coins;
+    int cb = this->currentBet;
+    char *str = new char[512];
+    sprintf(str, "%s\nPeniaze na stole: %d jednotiek\nVýška stávky: %d jednotiek\n%s\n%s", stg, c, cb, apl, crd);
     return str;
 }
 
@@ -228,17 +274,13 @@ int PokerTable::nextStage() {
         case FINISHED: this->stage = GameStage::WAITING; break;
     }
     this->currentBet = 0;
-
+    this->necessaryBet = this->stage == FIRST_BETS ? 3 : -1;
     if (this->stage == FIRST_BETS) {
-        this->necessaryBet = 3;
         // povinna stavka vsetkych clenov
         for (int p = 0 ; p < MAX_PLAYERS; p++) {
             Player* player = this->players[p];
-            if (player != nullptr) player->call(MIN_BET);
+            if (player != nullptr) this->coins += player->call(MIN_BET);
         }
-    }
-    else if (this->stage == THREE_CARDS) {
-        this->necessaryBet = 0;
     }
     return true;
 }
@@ -259,19 +301,17 @@ void PokerTable::disconnectPlayer(int pos) {
     if (valid && this->currentPlayer == pos) nextPlayer();
 }
 
-int PokerTable::connectPlayer(char *name) {
-    int seat = -1;
+int PokerTable::connectPlayer(const char *name) {
     if (this->playersCount < MAX_PLAYERS) {
         for (int i = 0; i < MAX_PLAYERS; i++) {
             if (this->players[i] == nullptr) {
-                this->players[seat] = new Player(name, i);
+                this->players[i] = new Player(name, i);
                 this->playersCount++;
-                seat = i;
-                break;
+                return i;
             }
         }
     }
-    return seat;
+    return -1;
 }
 
 void PokerTable::chooseWinner(char *msg) {
@@ -284,6 +324,7 @@ void PokerTable::chooseWinner(char *msg) {
                 Player *p = this->players[i];
                 if (p != nullptr && p->isPlaying()) playersLeft[count++] = p;
             }
+
             // meranie vysledkov
             int invalid = 0;
             for (int i = 0; i < count; i++) {
@@ -296,39 +337,49 @@ void PokerTable::chooseWinner(char *msg) {
                 // zoradenie od vitaza po porazeneho
                 for (int p1 = 0; p1 < MAX_PLAYERS; p1++) {
                     for (int p2 = p1 + 1; p2 < MAX_PLAYERS; p2++) {
-                        PokerHand *h2 = hands[p1];
-                        if (*hands[p1] <= h2) {
-                            PokerHand* tmp = hands[p1];
+                        if (*hands[p1] < hands[p2]) {
+                            PokerHand *tmpH = hands[p1];
+                            Player *tmpP = playersLeft[p1];
                             hands[p1] = hands[p2];
-                            hands[p2] = tmp;
+                            playersLeft[p1] = playersLeft[p2];
+                            hands[p2] = tmpH;
+                            playersLeft[p2] = tmpP;
                         }
                     }
                 }
 
                 // zistit kolko je vitazov (niekedy maju dvaja rovnake karty)
                 int winners = 1;
-                for (; winners < count; winners++) {
-                    if ((*hands[0]) > hands[winners]) break;
-                }
+                for (; winners < count; winners++) if ((*hands[0]) > hands[winners]) break;
 
-                int reward = this->coins / 3;
-                this->coins -= reward;
-                sprintf(msg, winners == 1 ? "%d Víťaz:\n" : "%d Víťazi:\n", winners);
+                int reward = this->coins / winners;
+                this->coins -= reward * winners;
+                sprintf(msg, "Koniec hry\n\n%d %s:\n", winners, winners == 1 ? "Víťaz" : "Víťazi");
                 for (int i = 0; i < winners; i++) {
                     playersLeft[i]->gain(reward);
-                    strncat(msg, playersLeft[i]->toString(), 500 - strlen(msg));
-                    sprintf(msg, "\nVýhra: %d\n", reward);
+                    strcat(msg, playersLeft[i]->getName());
+                    char *win = new char[6];
+                    sprintf(win, ": +%d jednotiek\n", reward);
+                    strcat(msg, win);
                 }
-                sprintf(msg, "\n");
-                sprintf(msg, "Kombinácie:\n");
-                for (int i = 0; i < count; i++)
-                    sprintf(msg, "%18s: %s\n", playersLeft[i]->getName(), hands[i]->toString());
+                strcat(msg, "\nKombinácie:\n");
+                char *msg2 = new char[256];
+                for (int i = 0; i < count; i++) {
+                    const char *name = playersLeft[i]->getName();
+                    const char *rating = hands[i]->toString();
+                    strcat(msg2, name);
+                    strcat(msg2, ": ");
+                    strcat(msg2, rating);
+                    strcat(msg2, "\n");
+                }
+                strcat(msg, msg2);
             }
-            else
-                sprintf(msg, "Niektorých hráčov sa nepodarilo ohodnotiť!");
-
-
+            else {
+                sprintf(msg, "Niektorých hráčov sa nepodarilo ohodnotiť! Hra skončila, peniaze prepadlli. Oprav to!");
+                this->coins = 0;
+            }
+            this->stage = WAITING;
         }
     }
-    else strncat(msg, "Hra ešte neskončila alebo nezačala!", 100);
+    else sprintf(msg, "Hra ešte neskončila alebo nezačala!");
 }

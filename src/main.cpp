@@ -19,29 +19,42 @@ int main(int argc, char *argv[]) {
         std::cout << "NOTHING" << std::endl;
     }*/
 
-    auto* pool = new PokerTable();
-    char** players = static_cast<char**>(malloc(sizeof(char*) * 6));
-    for (int i = 0; i < 6; i++) players[i] = new char[18];
+    auto* table = new PokerTable();
 
-    strncat(players[0], "Šimon", 18);
-    strncat(players[1], "Paľo", 18);
-    strncat(players[2], "Peter", 18);
-    strncat(players[3], "Ivan", 18);
-    strncat(players[4], "Ľudka", 18);
-    strncat(players[5], "Radka", 18);
-
-    for (int i = 0; i<6; i++) pool->connectPlayer(players[i]);
-    free(players);
-    players = nullptr;
+    int p1 = table->connectPlayer("Šimon");
+    int p2 = table->connectPlayer("Paľo");
+    int p3 = table->connectPlayer("Peter");
+    int p4 = table->connectPlayer("Ivan");
+    int p5 = table->connectPlayer("Radka");
+    int p6 = table->connectPlayer("Ľudka");
+    printf("%d %d %d %d %d %d\n%s\n", p1, p2, p3, p4, p5, p6, table->toString());
 
     char *msg = new char[512];
     char *cmd = new char[30];
 
+    Command::commitAction("start", table, 0, msg);
+
+    for (int i = 0; i < 3; i++)
+        Command::commitAction("call", table, i, msg);
+    for (int i = 3; i < 6; i++)
+        Command::commitAction("check", table, i, msg);
+    for (int i = 0; i < 3; i++) {
+        Command::commitAction("raise", table, 0, msg);
+        for (int j = 1; j < 6; j++)
+            Command::commitAction("call", table, j, msg);
+    }
+
     do {
         cmd[0] = '\0';
         scanf("%s", cmd);
-        Command::commitAction(cmd, pool, msg);
+        int player = -1;
+        auto* p = table->getCurrentPlayer();
+        if (p != nullptr) {
+            player = p->getId();
+            printf("%d", player);
+        }
+        Command::commitAction(cmd, table, player, msg);
         printf("%s\n", msg);
-    } while (strcmp(msg, CMD_Q) != 0);
+    } while (strcmp(cmd, CMD_Q) != 0);
     return 0;
 }
