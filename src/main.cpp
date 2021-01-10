@@ -3,12 +3,14 @@
 #include "headers/PokerTable.h"
 #include "headers/Card.h"
 #include "headers/Command.h"
+#include "headers/server.h"
+#include "headers/client.h"
 
 int main(int argc, char *argv[]) {
     // tento prikaz by sa mal za cely program vykonat len raz, a to po spusteni,
     srand(time(nullptr));
 
-    /*if (std::string(argv[1]) == "server"){
+    if (std::string(argv[1]) == "server"){
         std::cout<< "SERVER" << std::endl;
         server(argc, argv);
     }
@@ -17,9 +19,9 @@ int main(int argc, char *argv[]) {
         client(argc, argv);
     } else {
         std::cout << "NOTHING" << std::endl;
-    }*/
+    }
 
-    auto* table = new PokerTable();
+    /*auto* table = new PokerTable();
 
     int p1 = table->connectPlayer("Šimon");
     int p2 = table->connectPlayer("Paľo");
@@ -55,6 +57,6 @@ int main(int argc, char *argv[]) {
         }
         Command::commitAction(cmd, table, player, msg);
         printf("%s\n", msg);
-    } while (strcmp(cmd, CMD_Q) != 0);
+    } while (strcmp(cmd, CMD_Q) != 0);*/
     return 0;
 }

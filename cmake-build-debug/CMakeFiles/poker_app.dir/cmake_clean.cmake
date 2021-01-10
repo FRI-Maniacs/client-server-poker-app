@@ -12,6 +12,6 @@ file(REMOVE_RECURSE
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang )
+foreach(lang CXX)
   include(CMakeFiles/poker_app.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

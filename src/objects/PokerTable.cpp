@@ -202,10 +202,12 @@ bool PokerTable::makeMove(Move move, char* msg) {
         strncat(msg, nb || cb ? " (zamietnuté): " : ": ", len - strlen(msg));
         if (nb) strncat(msg, "Ste viazaný povinnou stávkou!", len - strlen(msg));
         else if (cb) strncat(msg, "Dorovnajte stávky alebo sa vzdajte kariet!", len - strlen(msg));
+        else strncat(msg, "Bez stavky", len - strlen(msg));
         return !nb && !cb;
     }
     else if (move == FOLD) {
         sprintf(msg, "%6s Zložené karty!", "FOLD");
+        p->fold();
         return true;
     }
     else if (move == ALL_IN) {
@@ -224,8 +226,13 @@ bool PokerTable::makeMove(Move move, char* msg) {
         int isAllIn = p->isAllIn(bet);
         sprintf(msg, bet < MIN_BET ? "%6s (zamietnuté): " : "%6s: ", isAllIn ? "ALL IN" : "CALL");
         if (bet > 0) {
-            this->coins += p->call(bet);
+            int payed = p->call(bet);
+            this->coins += payed;
             this->necessaryBet--;
+            char *money = new char[5];
+            sprintf(money, "%d", payed);
+            strcat(msg, "Vlozena stavka: -");
+            strcat(msg, money);
             return true;
         }
         else sprintf(msg, "Nebola nikým určená stávka!");
@@ -241,6 +248,10 @@ bool PokerTable::makeMove(Move move, char* msg) {
         else {
             this->currentBet = p->raise(bet);
             this->coins += this->currentBet;
+            char *money = new char[5];
+            sprintf(money, "%d", this->currentBet);
+            strcat(msg, "Vlozena stavka: -");
+            strcat(msg, money);
         }
         return !isAllIn;
     }
@@ -286,7 +297,9 @@ int PokerTable::nextStage() {
 }
 
 void PokerTable::finishGame() {
+    printf("I'm waiting! %d", this->isWaiting());
     while (this->stage != WAITING) {
+        printf("I'm waiting in cycle! %d", this->isWaiting());
         nextStage();
     }
 }
@@ -301,11 +314,11 @@ void PokerTable::disconnectPlayer(int pos) {
     if (valid && this->currentPlayer == pos) nextPlayer();
 }
 
-int PokerTable::connectPlayer(const char *name) {
+int PokerTable::connectPlayer(const char *name, int socket) {
     if (this->playersCount < MAX_PLAYERS) {
         for (int i = 0; i < MAX_PLAYERS; i++) {
             if (this->players[i] == nullptr) {
-                this->players[i] = new Player(name, i);
+                this->players[i] = new Player(name, i, socket);
                 this->playersCount++;
                 return i;
             }
@@ -383,3 +396,34 @@ void PokerTable::chooseWinner(char *msg) {
     }
     else sprintf(msg, "Hra ešte neskončila alebo nezačala!");
 }
+
+int *PokerTable::getSockets() {
+    int* sockets = new int[MAX_PLAYERS];
+    for (int i = 0; i < MAX_PLAYERS; ++i)
+        sockets[i] = this->players[i] != nullptr ? this->players[i]->getSocket() : -1;
+
+    return sockets;
+}
+
+int PokerTable::getIdBySocket(int socket) {
+    for (int i = 0; i < MAX_PLAYERS; ++i) {
+        if (this->players[i] != nullptr && this->players[i]->getSocket() == socket)
+            return i;
+    }
+    return -1;
+}
+
+int PokerTable::getPlayersCount() {
+    return this->playersCount;
+}
+
+int PokerTable::getActivePlayersCount() {
+    int n = 0;
+    for (int i = 0; i < MAX_PLAYERS; i ++) {
+        Player* p = this->players[i];
+        if(p != nullptr && p->isPlaying() && !p->isBroke())
+            n++;
+    }
+    return n;
+}
+

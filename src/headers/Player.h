@@ -14,14 +14,16 @@
 class Player {
 private:
     int playerId;
+    int socket;
     const char * name;
     Card* card1 = nullptr;
     Card* card2 = nullptr;
     int coins;
     int lose(int n);
 public:
-    Player(const char* name, int p_id);
+    Player(const char* name, int p_id, int socket);
     int getId();
+    int getSocket();
     ~Player();
     void receiveCards(int c1, int c2);
     int isPlaying();

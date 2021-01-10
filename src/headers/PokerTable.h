@@ -40,9 +40,10 @@ public:
     bool isResumed();
     bool isFinished();
     int getBet();
-
+    int* getSockets();
+    int getIdBySocket(int socket);
     // zapis do pola hracov
-    int connectPlayer(const char* name);
+    int connectPlayer(const char* name, int socket);
     void disconnectPlayer(int pos);
 
     // priebeh hry
@@ -65,6 +66,10 @@ public:
     const char *stageToString();
 
     const char *activePlayersToString();
+
+    int getPlayersCount();
+
+    int getActivePlayersCount();
 };
 
 

@@ -8,8 +8,9 @@
 
 #define NAME_LEN 18
 
-Player::Player(const char *name, int p_id) {
+Player::Player(const char *name, int p_id, int socket) {
     this->playerId = p_id;
+    this->socket = socket;
     char* str = new char[NAME_LEN];
     strncat(str, name, NAME_LEN);
     this->name = str;
@@ -115,3 +116,9 @@ int Player::allIn() {
     this->coins = 0;
     return c;
 }
+
+int Player::getSocket() {
+    return this->socket;
+}
+
+

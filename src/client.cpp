@@ -15,7 +15,7 @@
 #include "./headers/client.h"
 #include <mutex>
 
-#define MAX_LEN 200
+#define MAX_LEN 512
 
 std::thread t_send, t_recv;
 bool exit_flag = false;
@@ -53,8 +53,13 @@ int client(int argc, char* argv[]) {
     }
 
     signal(SIGINT, catch_ctrl_c);
-    char name[MAX_LEN];
-    std::cout<<"Enter your name and amount of players: ";
+    char name[MAX_LEN], init_msg[MAX_LEN];
+    int bytes_received = 0;
+    //std::cout<<"Enter your name: ";
+    while(bytes_received == 0) {
+        bytes_received = recv(client_socket, init_msg, sizeof(init_msg), 0);
+    }
+    std::cout << init_msg;
     std::cin.getline(name,MAX_LEN);
     send(client_socket, name, sizeof(name),0);
 
@@ -104,7 +109,7 @@ void send_message(int client_sock)
         char msg[MAX_LEN];
         std::cin.getline(msg, MAX_LEN);
 
-        send(client_sock, msg, sizeof(msg), 0);
+        send(client_sock, msg, MAX_LEN, 0);
         if (std::string(msg) == "q") {
             exit_flag = true;
             t_recv.detach();
@@ -123,7 +128,7 @@ void recv_message(int client_sock)
             return;
         char msg[MAX_LEN];
 
-        int bytes_received = recv(client_sock, msg ,sizeof(msg),0);
+        int bytes_received = recv(client_sock, msg , MAX_LEN,0);
         if(bytes_received <= 0) continue;
 
         eraseText(6);
