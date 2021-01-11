@@ -15,9 +15,11 @@ PokerTable::PokerTable() {
     this->stage = WAITING;
     this->playersCount = 0;
     this->currentPlayer = -1;
+    this->stageChanged = false;
     this->coins = 0;
     this->currentBet = 0;
     this->necessaryBet = 0;
+    this->nextStagePoint = MAX_PLAYERS - 1;
 }
 
 bool PokerTable::isWaiting() {
@@ -83,6 +85,7 @@ bool PokerTable::startGame(char* str) {
         }
         delete[] cardNums;
         nextStage();
+        this->stageChanged = false;
         sprintf(str, "Hra sa úspešne spustila!");
         return true;
     }
@@ -98,15 +101,17 @@ void PokerTable::nextPlayer() {
             int end = st + MAX_PLAYERS;
             for (; st <= end; st++) {
                 int i = st % MAX_PLAYERS;
-                if (i == 0) this->nextStage();
-                Player * p = this->players[i];
-                if (p != nullptr && p->isPlaying() && !p->isBroke()) {
+                if (this->isActivePlayer(i)) {
                     this->currentPlayer = i;
                     break;
                 }
             }
         }
     }
+}
+
+bool PokerTable::wasStageChanged() {
+    return this->stageChanged;
 }
 
 const char *PokerTable::tableCardsToString() {
@@ -173,6 +178,21 @@ Player* PokerTable::getPlayerAt(int index) {
     return this->players[index];
 }
 
+bool PokerTable::isActivePlayer(int player) {
+    if(player < 0 || player >= MAX_PLAYERS) return false;
+    Player *p = this->players[player];
+    return p != nullptr && p->isPlaying() && !p->isBroke();
+}
+
+bool PokerTable::isStageFinishingPlayer(int player) {
+    if (player < 0 || player >= MAX_PLAYERS) return false;
+    do {
+        player = (player + 1) % MAX_PLAYERS;
+        if (isActivePlayer(player)) return false;
+    } while (player != this->nextStagePoint);
+    return true;
+};
+
 Player* PokerTable::getCurrentPlayer() {
     if (this->currentPlayer < 0) return nullptr;
     if (this->currentPlayer >= MAX_PLAYERS) return nullptr;
@@ -195,65 +215,86 @@ bool PokerTable::makeMove(Move move, char* msg) {
         sprintf(msg, "Hra bola náhle ukončená pre nedostatok hráčov!");
         return false;
     }
-    else if (move == CHECK) {
-        int nb = this->necessaryBet > 0;
-        int cb = this->currentBet > 0;
-        sprintf(msg, "%6s ", "CHECK");
-        strncat(msg, nb || cb ? " (zamietnuté): " : ": ", len - strlen(msg));
-        if (nb) strncat(msg, "Ste viazaný povinnou stávkou!", len - strlen(msg));
-        else if (cb) strncat(msg, "Dorovnajte stávky alebo sa vzdajte kariet!", len - strlen(msg));
-        else strncat(msg, "Bez stavky", len - strlen(msg));
-        return !nb && !cb;
-    }
-    else if (move == FOLD) {
-        sprintf(msg, "%6s Zložené karty!", "FOLD");
-        p->fold();
-        return true;
-    }
-    else if (move == ALL_IN) {
-        int amount = p->allIn();
-        this->coins += amount;
-        this->currentBet = amount;
-        sprintf(msg, "%6s: %d jednotiek!", "ALL_IN", amount);
-        return true;
-    }
-    else if (move == CALL) {
-        int bet = getBet();
-        if (bet < MIN_BET && this->stage == FIRST_BETS && this->necessaryBet == 0) {
-            bet = MIN_BET;
-            this->currentBet = MIN_BET;
+    else {
+        int finisher = this->isStageFinishingPlayer(this->currentPlayer);
+        if (move == CHECK) {
+            int nb = this->necessaryBet > 0;
+            int cb = this->currentBet > 0;
+            sprintf(msg, "%6s ", "CHECK");
+            strncat(msg, nb || cb ? " (zamietnuté): " : ": ", len - strlen(msg));
+            if (nb) strncat(msg, "Ste viazaný povinnou stávkou!", len - strlen(msg));
+            else if (cb) strncat(msg, "Dorovnajte stávky alebo sa vzdajte kariet!", len - strlen(msg));
+            else strncat(msg, "Bez stavky", len - strlen(msg));
+            if (!nb && !cb) {
+                if (finisher) this->nextStage();
+                else this->stageChanged = false;
+            };
+            return !nb && !cb;
         }
-        int isAllIn = p->isAllIn(bet);
-        sprintf(msg, bet < MIN_BET ? "%6s (zamietnuté): " : "%6s: ", isAllIn ? "ALL IN" : "CALL");
-        if (bet > 0) {
-            int payed = p->call(bet);
-            this->coins += payed;
-            this->necessaryBet--;
-            char *money = new char[5];
-            sprintf(money, "%d", payed);
-            strcat(msg, "Vlozena stavka: -");
-            strcat(msg, money);
+        else if (move == FOLD) {
+            sprintf(msg, "%6s Zložené karty!", "FOLD");
+            p->fold();
+            if (finisher) this->nextStage();
+            else this->stageChanged = false;
             return true;
         }
-        else sprintf(msg, "Nebola nikým určená stávka!");
-        return false;
-    }
-    else if (move == RAISE) {
-        int bet = 2 * getBet();
-        if (bet < MIN_BET) bet = MIN_BET;
-        bool isAllIn = p->isAllIn(bet / 2);
-        bool isAllIn2 = isAllIn && p->isAllIn(bet);
-        sprintf(msg, isAllIn ? "%6s (zamietnuté): " : "%6s: ", isAllIn2 ? "ALL IN" : "RAISE");
-        if (isAllIn) strncat(msg, "Nedostatok prostriedkov na zvýšenie stávky!", 48);
-        else {
-            this->currentBet = p->raise(bet);
-            this->coins += this->currentBet;
-            char *money = new char[5];
-            sprintf(money, "%d", this->currentBet);
-            strcat(msg, "Vlozena stavka: -");
-            strcat(msg, money);
+        else if (move == ALL_IN) {
+            int amount = p->allIn();
+            this->coins += amount;
+            this->currentBet = amount;
+            sprintf(msg, "%6s: -%d jednotiek!", "ALL_IN", amount);
+            if (finisher) this->nextStage();
+            else this->stageChanged = false;
+            return true;
         }
-        return !isAllIn;
+        else if (move == CALL) {
+            int bet = getBet();
+            if (bet < MIN_BET && this->stage == FIRST_BETS && this->necessaryBet == 0) {
+                bet = MIN_BET;
+                this->currentBet = MIN_BET;
+            }
+            int isAllIn = p->isAllIn(bet);
+            sprintf(msg, bet < MIN_BET ? "%6s (zamietnuté): " : "%6s: ", isAllIn ? "ALL IN" : "CALL");
+            if (bet > 0) {
+                int payed = p->call(bet);
+                this->coins += payed;
+                this->necessaryBet--;
+                char *money = new char[5];
+                sprintf(money, "%d", payed);
+                strcat(msg, "Vlozena stavka: -");
+                strcat(msg, money);
+                strcat(msg, " jednotiek");
+                if (finisher) this->nextStage();
+                else this->stageChanged = false;
+                return true;
+            }
+            else sprintf(msg, "Nebola nikým určená stávka!");
+            return false;
+        }
+        else if (move == RAISE) {
+            bool nsp_move = this->currentBet == 0;
+            int bet = 2 * getBet();
+            if (bet < MIN_BET) bet = MIN_BET;
+            bool isAllIn = p->isAllIn(bet / 2);
+            bool isAllIn2 = isAllIn && p->isAllIn(bet);
+            sprintf(msg, isAllIn ? "%6s (zamietnuté): " : "%6s: ", isAllIn2 ? "ALL IN" : "RAISE");
+            if (isAllIn) strncat(msg, "Nedostatok prostriedkov na zvýšenie stávky!", 48);
+            else {
+                this->currentBet = p->raise(bet);
+                this->coins += this->currentBet;
+                this->nextStagePoint = this->currentPlayer < 0 ? MAX_PLAYERS - 1 : this->currentPlayer - 1;
+                char *money = new char[5];
+                sprintf(money, "%d", this->currentBet);
+                strcat(msg, "Vlozena stavka: -");
+                strcat(msg, money);
+                strcat(msg, " jednotiek");
+            }
+            if (!isAllIn) {
+                if (finisher) this->nextStage();
+                else this->stageChanged = false;
+                return true;
+            }
+        }
     }
     return false;
 }
@@ -286,6 +327,15 @@ int PokerTable::nextStage() {
     }
     this->currentBet = 0;
     this->necessaryBet = this->stage == FIRST_BETS ? 3 : -1;
+    this->stageChanged = true;
+    this->nextStagePoint = MAX_PLAYERS - 1;
+    for (int i = 0; i < MAX_PLAYERS; i++) {
+        if (this->isActivePlayer(i)) {
+            this->currentPlayer = i;
+            break;
+        }
+    }
+
     if (this->stage == FIRST_BETS) {
         // povinna stavka vsetkych clenov
         for (int p = 0 ; p < MAX_PLAYERS; p++) {
@@ -297,11 +347,7 @@ int PokerTable::nextStage() {
 }
 
 void PokerTable::finishGame() {
-    printf("I'm waiting! %d", this->isWaiting());
-    while (this->stage != WAITING) {
-        printf("I'm waiting in cycle! %d", this->isWaiting());
-        nextStage();
-    }
+    if (this->stage != WAITING) this->stage = FINISHED;
 }
 
 void PokerTable::disconnectPlayer(int pos) {
@@ -391,8 +437,8 @@ void PokerTable::chooseWinner(char *msg) {
                 sprintf(msg, "Niektorých hráčov sa nepodarilo ohodnotiť! Hra skončila, peniaze prepadlli. Oprav to!");
                 this->coins = 0;
             }
-            this->stage = WAITING;
         }
+        this->stage = WAITING;
     }
     else sprintf(msg, "Hra ešte neskončila alebo nezačala!");
 }

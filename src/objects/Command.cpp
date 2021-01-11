@@ -7,8 +7,6 @@
 #include "../headers/Command.h"
 
 bool Command::commitAction(const char *command, PokerTable *table, int p_id, char *msg) {
-    printf("command is %s strlen(%zu)\n", command, strlen(command));
-
     msg[0] = '\0';
     if (strcmp(command, CMD_Q) == 0) {
         sprintf(msg, "Game over");
@@ -37,26 +35,20 @@ bool Command::commitAction(const char *command, PokerTable *table, int p_id, cha
         if (check || call || raise || allIn || fold) {
             if (table->getCurrentPlayer()->getId() == p_id) {
                 Move m = check ? CHECK : call ? CALL : raise ? RAISE : allIn ? ALL_IN : FOLD;
-                printf("%d\n", m);
+                printf("finished after move: %d, actives: %d, stageChanged %d\n", table->isFinished(), table->getActivePlayersCount(),
+                       table->wasStageChanged());
                 if (table->makeMove(m, msg)) {
-                    if (table->getActivePlayersCount() == 1) {
-                        printf("I should finish\n");
-                        table->finishGame();
-                        //printf("AFTER FINISHh\n");
+                    if (table->isFinished()) {
                         table->chooseWinner(msg);
-                        return true;
+                    }
+                    else if (table->getActivePlayersCount() <= 1 && table->wasStageChanged()) {
+                        table->finishGame();
+                        table->chooseWinner(msg);
                     }
                     else {
                         table->nextPlayer();
-                        if (table->isFinished()) {
-                            table->chooseWinner(msg);
-                            //char* more = new char[256];
-                            //table->chooseWinner(more);
-                            //strncat(msg, "\n", 2);
-                            //strncat(msg, more, strlen(more));
-                        }
-                        return true;
                     }
+                    return true;
                 }
             }
             else {

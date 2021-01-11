@@ -20,6 +20,7 @@ typedef struct broadcast_buffer{
 void handle_connection(int server_sock, PokerTable* table);
 void handle_multi_clients(PokerTable* table);
 void handle_receive_msg(PokerTable* table);
+void broadcast(const char* msg);
 
 
 

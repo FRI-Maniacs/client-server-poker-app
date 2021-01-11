@@ -27,39 +27,46 @@ int die = 0; //ak 1 skonci program
 int admin = 0; //socket admina
 int max_players = MAX_PLAYERS;
 int client_sockets[MAX_PLAYERS] {-1, -1, -1, -1, -1, -1};
+bool starting = true;
 std::mutex broadcast_mtx;
 
 BROADCAST_BUFFER buff = {
     &broadcast_mtx,
-    static_cast<char**>(malloc(sizeof(char*)*7)),
+    static_cast<char**>(malloc(sizeof(char*)*6)),
     0,
     0
 };
 
 const char* read_from_buffer() {
-    //std::cout << "READING START" << std::endl;
-    std::unique_lock<std::mutex> loc(*buff.mtx);
+    std::cout << "READING START" << std::endl;
+    //buff.mtx->lock();
+    //std::unique_lock<std::mutex> loc(*buff.mtx);
     int pos = buff.start % MAX_PLAYERS;
     char* tmp = buff.count > 0 ? buff.msg[pos] : nullptr;
+    if (tmp != nullptr) {
+        std::cout << "st: " << buff.start << ", co: " << buff.count << "BROADCASTING:\n" << tmp << std::endl;
+    }
     buff.msg[pos] = nullptr;
     buff.start = pos + 1;
     buff.count--;
-    loc.unlock();
-    //std::cout << "READING END" << std::endl;
+    //loc.unlock();
+    //buff.mtx->unlock();
+    std::cout << "READING END" << std::endl;
     return tmp;
 }
 
+
 void write_to_buffer(char* str) {
     std::cout << "WRITING START" << std::endl;
-
-    std::unique_lock<std::mutex> loc(*buff.mtx);
+    //buff.mtx->lock();
+    //std::unique_lock<std::mutex> loc(*buff.mtx);
     if (buff.count < MAX_PLAYERS) {
         buff.msg[(buff.start + buff.count) % MAX_PLAYERS] = str;
         buff.count++;
     }
-    loc.unlock();
+    //loc.unlock();
+    //buff.mtx->unlock();
     std::cout << "WRITING END" << std::endl;
-
 }
 
 
@@ -88,6 +95,10 @@ int server(int argc, char *argv[])
 
     handle_connection(server_socket, table);
 
+    char *end = new char[18];
+    sprintf(end, "q: Hra skončila!");
+    write_to_buffer(end);
+
     std::cout << "Server closed..." << std::endl;
     close(server_socket);
     return 0;
@@ -98,7 +109,6 @@ void handle_connection(int server_socket, PokerTable* table) {
     SA_IN client_addr;
     auto thread_pool = new std::thread[MAX_PLAYERS];
     int thread_index = 0;
-    std::thread th_handle_broadcast(handle_multi_clients, table);
 
     for(;;) {
         if (thread_index == max_players) break;
@@ -135,10 +145,13 @@ void handle_connection(int server_socket, PokerTable* table) {
         }
     }
 
-    while (table->getPlayersCount() < max_players) continue;
+        while (table->getPlayersCount() < max_players) continue;
     char* str = new char[100];
-    sprintf(str, "%s", "Hra sa uspesne spustila");
-    write_to_buffer(str);
+    //std::thread th_handle_broadcast(handle_multi_clients, table);
+
+    //sprintf(str, "%s", "Hra sa uspesne spustila");
+    //write_to_buffer(str);
+    broadcast("Hra sa uspesne spustila");
 
     std::cout << "END CONNECTION PHASE" << std::endl;
     std::cout << "Players count: " << table->getPlayersCount() << std::endl;
@@ -148,8 +161,9 @@ void handle_connection(int server_socket, PokerTable* table) {
     if (table->startGame(str)){
         std::cout << "GAME STARTED "<< str << std::endl;
         char *turn = new char[20];
-        sprintf(turn, "%s", table->getCurrentPlayer()->getName());
-        write_to_buffer(turn);
+        //sprintf(turn, "%s", table->getCurrentPlayer()->getName());
+        broadcast(table->getCurrentPlayer()->getName());
+        //write_to_buffer(turn);
     } else {
         std::cout << "NOT STARTED"<< str << std::endl;
 
@@ -159,7 +173,7 @@ void handle_connection(int server_socket, PokerTable* table) {
     for(int i = 0; i < MAX_PLAYERS; i++) {
         if (thread_pool[i].joinable()) thread_pool[i].join();
     }
-    if (th_handle_broadcast.joinable()) th_handle_broadcast.join();
+    //if (th_handle_broadcast.joinable()) th_handle_broadcast.join();
     delete[] thread_pool;
     for (int& client_sock : client_sockets) {
         close(client_sock);
@@ -243,15 +257,20 @@ CMD_PAIR commandHandler(const std::string& str) {
 
 void handle_client(int client_socket, PokerTable* table) {
     char name[MAX_LEN];
+
     recv(client_socket, name, MAX_LEN, 0);
     //set_name(id, name);
     if (admin == client_socket) {
         CMD_PAIR cmd = commandHandler(std::string(name));
-        table->connectPlayer(cmd.command.c_str(), client_socket);
+        const char* changed = cmd.command.c_str();
+        sprintf(name, "%s", changed);
+        table->connectPlayer(name, client_socket);
         max_players = strToIntConverter(cmd.amount);
     } else {
         table->connectPlayer(name, client_socket);
     }
+    strcat(name, ":");
+
     std::cout << table->activePlayersToString() <<std::endl;
     std::cout << name << " connected... IS ADMIN " << (admin == client_socket) << std::endl;
 
@@ -261,47 +280,64 @@ void handle_client(int client_socket, PokerTable* table) {
     char *resp_output = new char[MAX_LEN];
     char *client_command = new char[MAX_LEN];
 
+    std::cout << "beffore help \n";
+
     // napoveda pre hraca
     Command::commitAction("help", table, ID, resp_output);
     send(client_socket, resp_output, MAX_LEN, 0);
     bzero(resp_output, MAX_LEN);
 
     while (die == 0) {
-        if (recv(client_socket, client_command, MAX_LEN, 0) > 0) {
-            std::cout << "CMD: " << client_command << std::endl;
+        int received = recv(client_socket, client_command, MAX_LEN, 0);
+        std::cout << received << std::endl;
+        if (received > 0) {
+            std::cout << "COMMIT" << std::endl;
             bool result = Command::commitAction(client_command, table, ID, resp_output);
-            std::cout << "RESULT>>" << result << std::endl;
+            std::cout << "CMD: " << client_command << " RESULT " << (result ? "true" : "false") << std::endl;
             if (result) {
                 //poslat vsetkym
-                write_to_buffer(resp_output);
+                //std::cout << "BROADCAST START" << std::endl;
+                //write_to_buffer(resp_output);
+                char *out = new char[MAX_LEN];
+                sprintf(out, "%s %s", NAME, resp_output);
+                broadcast(out);
+                sprintf(out, "na rade je %s", table->getCurrentPlayer()->toString());
+                broadcast(out);
             } else {
                 //posli spat s chybou
                 send(client_socket, resp_output, MAX_LEN, 0);
             }
-            bzero(resp_output, MAX_LEN);
+            //bzero(resp_output, MAX_LEN);
             bzero(client_command, MAX_LEN);
-            if (!table->isResumed()) {
-                die = 1;
-                // poslat broadcast q
+            if (!table->isResumed() && !starting) die = 1;
+        }
+    }
+    std::cout << "DIED\n";
+}
+
+void broadcast(const char* msg){
+    if (msg != nullptr && strlen(msg) > 0) {
+        for (int& client_sock : client_sockets) {
+            if (client_sock != -1) {
+                //std::cout << "BEFORE SEND\n";
+                send(client_sock, msg, MAX_LEN, 0);
+                //std::cout << "AFTER SEND\n";
             }
         }
     }
 }
 
-void handle_multi_clients(PokerTable* table) {
-    while (die == 0) {
-        const char* broadcast_msg = read_from_buffer();
-        //std::cout << "BROADCAST before check " << broadcast_msg << std::endl;
-        if (broadcast_msg != nullptr) {
-            std::cout << "BROADCAST after check " << broadcast_msg << std::endl;
-            for (int& client_sock : client_sockets) {
-                if (client_sock != -1)
-                    send(client_sock, broadcast_msg, MAX_LEN, 0);
+/*void broadcast(const char* msg) {
+    if (msg != nullptr && strlen(msg) > 0) {
+        for (int& client_sock : client_sockets) {
+            if (client_sock != -1) {
+                //std::cout << "BEFORE SEND\n";
+                send(client_sock, msg, MAX_LEN, 0);
+                //std::cout << "AFTER SEND\n";
             }
         }
-        delete[] broadcast_msg;
     }
-}
+}*/
 
 /*
  * std::thread th_connection(handle_connection, server_socket, table);
@@ -318,8 +354,6 @@ void handle_multi_clients(PokerTable* table) {
         if (playerSockets[i] != -1)
     }*/
 
-
-
 /*char* str = new char[MAX_LEN];
 
 if (table->startGame(str)){
@@ -328,7 +362,27 @@ if (table->startGame(str)){
     std::cout << str << std::endl;
 }*/
 
-
+/*void handle_multi_clients(PokerTable* table) {
+    while (die == 0) {
+        std::cout << "BEFORE BROADCAST" << std::endl;
+        const char* broadcast_msg = read_from_buffer();
+        std::cout << "BROADCASTED (line 298) " << broadcast_msg << " BROADCAST" << std::endl;
+        if (broadcast_msg != nullptr) {
+            for (int& client_sock : client_sockets) {
+                if (client_sock != -1) {
+                    std::cout << "BEFORE SEND\n";
+                    send(client_sock, broadcast_msg, MAX_LEN, 0);
+                    std::cout << "AFTER SEND\n";
+                }
+            }
+        }else{
+            std::cout << "BROD2\n";
+        }
+        delete[] broadcast_msg;
+        sleep(1);
+    }
+}
+*/
 
 
 

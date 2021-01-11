@@ -23,12 +23,12 @@ int main(int argc, char *argv[]) {
 
     /*auto* table = new PokerTable();
 
-    int p1 = table->connectPlayer("Šimon");
-    int p2 = table->connectPlayer("Paľo");
-    int p3 = table->connectPlayer("Peter");
-    int p4 = table->connectPlayer("Ivan");
-    int p5 = table->connectPlayer("Radka");
-    int p6 = table->connectPlayer("Ľudka");
+    int p1 = table->connectPlayer("Šimon", 1);
+    int p2 = table->connectPlayer("Paľo", 2);
+    int p3 = table->connectPlayer("Peter", 3);
+    int p4 = table->connectPlayer("Ivan", 4);
+    int p5 = table->connectPlayer("Radka", 5);
+    int p6 = table->connectPlayer("Ľudka", 6);
     printf("%d %d %d %d %d %d\n%s\n", p1, p2, p3, p4, p5, p6, table->toString());
 
     char *msg = new char[512];
@@ -36,14 +36,21 @@ int main(int argc, char *argv[]) {
 
     Command::commitAction("start", table, 0, msg);
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; i++) {
         Command::commitAction("call", table, i, msg);
-    for (int i = 3; i < 6; i++)
+        printf("\n\n\n%s", msg);
+    }
+    for (int i = 3; i < 6; i++) {
         Command::commitAction("check", table, i, msg);
+        printf("\n\n\n%s", msg);
+    }
     for (int i = 0; i < 3; i++) {
         Command::commitAction("raise", table, 0, msg);
-        for (int j = 1; j < 6; j++)
+        printf("\n\n\n%s", msg);
+        for (int j = 1; j < 6; j++) {
             Command::commitAction("call", table, j, msg);
+            printf("\n\n\n%s", msg);
+        }
     }
 
     do {

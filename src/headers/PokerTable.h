@@ -30,7 +30,9 @@ private:
     GameStage stage;
     int coins;
     int necessaryBet;
+    int nextStagePoint;
     int currentBet;
+    bool stageChanged;
     static int* generateNumbers(int count);
 public:
     PokerTable();
@@ -70,6 +72,12 @@ public:
     int getPlayersCount();
 
     int getActivePlayersCount();
+
+    bool wasStageChanged();
+
+    bool isActivePlayer(int player = -1);
+
+    bool isStageFinishingPlayer(int player);
 };
 
 
