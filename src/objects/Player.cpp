@@ -1,7 +1,3 @@
-//
-// Created by Spravca on 2. 1. 2021.
-//
-
 #include <cstring>
 #include <cstdio>
 #include "../headers/Player.h"
@@ -13,7 +9,9 @@ Player::Player(const char *name, int p_id, int socket) {
     this->socket = socket;
     char* str = new char[NAME_LEN];
     strncat(str, name, NAME_LEN);
-    this->name = str;
+    char *ch = new char[18];
+    strncat(ch, name, 18);
+    this->name = ch;
     this->coins = 50;
     this->card1 = nullptr;
     this->card2 = nullptr;
@@ -22,7 +20,6 @@ Player::Player(const char *name, int p_id, int socket) {
 Player::~Player() {
     delete this->card1;
     delete this->card2;
-    delete this->name;
 }
 
 void Player::receiveCards(int c1, int c2) {
@@ -30,10 +27,6 @@ void Player::receiveCards(int c1, int c2) {
     delete this->card2;
     this->card1 = new Card(c1);
     this->card2 = new Card(c2);
-}
-
-int Player::getId() {
-    return this->playerId;
 }
 
 const char * Player::getName() {
@@ -45,13 +38,11 @@ int Player::countMoney() const {
 }
 
 int Player::call(int bet) {
-    int lost = lose(bet);
-    return lost;
+    return lose(bet);
 }
 
 int Player::raise(int bet) {
-    int lost = lose(2*bet);
-    return lost;
+    return lose(2*bet);
 }
 
 void Player::fold() {
@@ -90,24 +81,18 @@ int Player::isPlaying() {
     return this->card1 != nullptr && this->card2 != nullptr;
 }
 
-int Player::isBroke() {
+int Player::isBroke() const {
     return this->coins <= 0;
 }
 
 const char* Player::viewCards() {
-    char * str = new char[60];
-    if (!this->isPlaying()) sprintf(str, "Hráč %18s nie je do hry zapojený!", this->name);
-    else sprintf(str, "%18s: %s %s", this->name, this->card1->toString(), this->card2->toString());
+    if (!this->isPlaying()) return "Bez kariet";
+    char * str = new char[14];
+    sprintf(str, "%s %s", this->card1->toString(), this->card2->toString());
     return str;
 }
 
-char *Player::toString() {
-    char * str = new char[50];
-    sprintf(str, "%18s: %d jednotiek", this->name, this->coins);
-    return str;
-}
-
-bool Player::isAllIn(int bet) {
+bool Player::isAllIn(int bet) const {
     return this->coins <= bet;
 }
 
@@ -117,7 +102,7 @@ int Player::allIn() {
     return c;
 }
 
-int Player::getSocket() {
+int Player::getSocket() const {
     return this->socket;
 }
 

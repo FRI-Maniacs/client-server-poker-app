@@ -12,6 +12,7 @@
 #include "../enums/Moves.h"
 #include "Card.h"
 #include "Player.h"
+#include "../enums/Seat.h"
 
 class PokerTable {
     enum GameStage {
@@ -26,13 +27,12 @@ private:
     Card ** cardsOnTable;
     Player ** players;
     int playersCount;
-    int currentPlayer;
+    Seat currPlayer;
     GameStage stage;
     int coins;
     int necessaryBet;
-    int nextStagePoint;
     int currentBet;
-    bool stageChanged;
+    Seat roundStart;
     static int* generateNumbers(int count);
 public:
     PokerTable();
@@ -42,11 +42,11 @@ public:
     bool isResumed();
     bool isFinished();
     int getBet();
-    int* getSockets();
-    int getIdBySocket(int socket);
+
+    Player * getPlayerBySocket(int socket);
     // zapis do pola hracov
-    int connectPlayer(const char* name, int socket);
-    void disconnectPlayer(int pos);
+    Seat connectPlayer(const char* name, int socket);
+    bool disconnectPlayer(int pos);
 
     // priebeh hry
     bool startGame(char * msg);
@@ -58,10 +58,10 @@ public:
 
     // citanie z pola hracov
     Player* getCurrentPlayer();
-    Player* getPlayerAt(int index);
+
     const char* toString();
 
-    const char * viewCards(int player);
+    const char * viewCards(Seat seat);
 
     const char *tableCardsToString();
 
@@ -69,15 +69,17 @@ public:
 
     const char *activePlayersToString();
 
-    int getPlayersCount();
+    int getPlayersCount() const;
 
     int getActivePlayersCount();
 
-    bool wasStageChanged();
+    bool isActivePlayer(Seat seat = NO_SEAT);
 
-    bool isActivePlayer(int player = -1);
+    static void nextSeat(Seat &seat, int step);
 
-    bool isStageFinishingPlayer(int player);
+    Seat getSeat(int socket);
+
+    bool isOnTurn(int socket);
 };
 
 

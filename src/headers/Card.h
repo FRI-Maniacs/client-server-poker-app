@@ -13,17 +13,18 @@ private:
     Suit shape;
     Face face;
     int strength;
+    const char *desc;
 public:
     Card(int num);
     static bool isFlush(Card *c1, Card *c2, Card *c3, Card *c4, Card *c5);
     const char* toString();
-    int getCardStrength();
-
-    bool operator < (Card* other);
-    bool operator <= (Card* other);
-    bool operator == (Card* other);
-    bool operator >= (Card* other);
-    bool operator > (Card* other);
+    int getCardStrength() const;
+    bool operator < (Card& other) const;
+    bool operator <= (Card& other) const;
+    bool operator == (Card& other) const;
+    bool operator >= (Card& other) const;
+    bool operator > (Card& other) const;
+    ~Card();
 };
 
 

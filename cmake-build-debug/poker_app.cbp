@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/tmp/tmp.IsWyfLL8d7/cmake-build-debug"/>
+				<Option working_dir="/tmp/tmp.qN68bvB66D/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/tmp/tmp.IsWyfLL8d7/cmake-build-debug"/>
+				<Option working_dir="/tmp/tmp.qN68bvB66D/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/tmp/tmp.IsWyfLL8d7/cmake-build-debug"/>
+				<Option working_dir="/tmp/tmp.qN68bvB66D/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="poker_app">
-				<Option output="/tmp/tmp.IsWyfLL8d7/cmake-build-debug/poker_app" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/tmp/tmp.IsWyfLL8d7/cmake-build-debug"/>
+				<Option output="/tmp/tmp.qN68bvB66D/cmake-build-debug/poker_app" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.qN68bvB66D/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -54,15 +54,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 poker_app"/>
-					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 poker_app"/>
+					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="poker_app/fast">
-				<Option output="/tmp/tmp.IsWyfLL8d7/cmake-build-debug/poker_app" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/tmp/tmp.IsWyfLL8d7/cmake-build-debug"/>
+				<Option output="/tmp/tmp.qN68bvB66D/cmake-build-debug/poker_app" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.qN68bvB66D/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -77,71 +77,71 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 poker_app/fast"/>
-					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.IsWyfLL8d7/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 poker_app/fast"/>
+					<CompileFile command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -f &quot;/tmp/tmp.qN68bvB66D/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/client.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/client.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/enums/Face.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/enums/Face.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/enums/HandRanking.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/enums/HandRanking.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/enums/Moves.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/enums/Moves.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/enums/Suit.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/enums/Suit.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/Card.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/Card.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/Command.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/Command.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/Player.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/Player.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/PokerHand.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/PokerHand.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/PokerTable.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/PokerTable.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/client.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/client.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/headers/server.h">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/headers/server.h">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/main.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/main.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/objects/Card.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/objects/Card.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/objects/Command.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/objects/Command.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/objects/Player.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/objects/Player.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/objects/PokerHand.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/objects/PokerHand.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/objects/PokerTable.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/objects/PokerTable.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/src/server.cpp">
+		<Unit filename="/tmp/tmp.qN68bvB66D/src/server.cpp">
 			<Option target="poker_app"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.IsWyfLL8d7/CMakeLists.txt">
+		<Unit filename="/tmp/tmp.qN68bvB66D/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

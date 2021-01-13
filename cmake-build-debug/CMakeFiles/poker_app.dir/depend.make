@@ -49,6 +49,14 @@ CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.o: ../src/headers/Player.h
 CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.o: ../src/headers/PokerHand.h
 CMakeFiles/poker_app.dir/src/objects/PokerHand.cpp.o: ../src/objects/PokerHand.cpp
 
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/enums/Face.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/enums/HandRanking.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/enums/Moves.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/enums/Suit.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/headers/Card.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/headers/Player.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/headers/PokerHand.h
+CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/headers/PokerTable.h
 CMakeFiles/poker_app.dir/src/objects/PokerTable.cpp.o: ../src/objects/PokerTable.cpp
 
 CMakeFiles/poker_app.dir/src/server.cpp.o: ../src/./enums/Face.h

@@ -6,59 +6,59 @@
 
 #IncludeRegexTransform: 
 
-/tmp/tmp.IsWyfLL8d7/src/./enums/Face.h
+/tmp/tmp.qN68bvB66D/src/./enums/Face.h
 
-/tmp/tmp.IsWyfLL8d7/src/./enums/HandRanking.h
+/tmp/tmp.qN68bvB66D/src/./enums/HandRanking.h
 
-/tmp/tmp.IsWyfLL8d7/src/./enums/Moves.h
+/tmp/tmp.qN68bvB66D/src/./enums/Moves.h
 
-/tmp/tmp.IsWyfLL8d7/src/./enums/Suit.h
+/tmp/tmp.qN68bvB66D/src/./enums/Suit.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/Card.h
+/tmp/tmp.qN68bvB66D/src/./headers/Card.h
 ../enums/Face.h
-/tmp/tmp.IsWyfLL8d7/src/./enums/Face.h
+/tmp/tmp.qN68bvB66D/src/./enums/Face.h
 ../enums/Suit.h
-/tmp/tmp.IsWyfLL8d7/src/./enums/Suit.h
+/tmp/tmp.qN68bvB66D/src/./enums/Suit.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/Command.h
+/tmp/tmp.qN68bvB66D/src/./headers/Command.h
 PokerTable.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/./headers/PokerTable.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/Player.h
+/tmp/tmp.qN68bvB66D/src/./headers/Player.h
 cstdlib
 -
 Card.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/Card.h
+/tmp/tmp.qN68bvB66D/src/./headers/Card.h
 PokerHand.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/PokerHand.h
+/tmp/tmp.qN68bvB66D/src/./headers/PokerHand.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/PokerHand.h
+/tmp/tmp.qN68bvB66D/src/./headers/PokerHand.h
 Card.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/Card.h
+/tmp/tmp.qN68bvB66D/src/./headers/Card.h
 Player.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/Player.h
+/tmp/tmp.qN68bvB66D/src/./headers/Player.h
 ../enums/HandRanking.h
-/tmp/tmp.IsWyfLL8d7/src/./enums/HandRanking.h
+/tmp/tmp.qN68bvB66D/src/./enums/HandRanking.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/./headers/PokerTable.h
 ../enums/HandRanking.h
-/tmp/tmp.IsWyfLL8d7/src/./enums/HandRanking.h
+/tmp/tmp.qN68bvB66D/src/./enums/HandRanking.h
 ../enums/Moves.h
-/tmp/tmp.IsWyfLL8d7/src/./enums/Moves.h
+/tmp/tmp.qN68bvB66D/src/./enums/Moves.h
 Card.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/Card.h
+/tmp/tmp.qN68bvB66D/src/./headers/Card.h
 Player.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/Player.h
+/tmp/tmp.qN68bvB66D/src/./headers/Player.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/client.h
+/tmp/tmp.qN68bvB66D/src/./headers/client.h
 
-/tmp/tmp.IsWyfLL8d7/src/./headers/server.h
+/tmp/tmp.qN68bvB66D/src/./headers/server.h
 PokerTable.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/./headers/PokerTable.h
 mutex
 -
 
-/tmp/tmp.IsWyfLL8d7/src/client.cpp
+/tmp/tmp.qN68bvB66D/src/client.cpp
 sys/types.h
 -
 sys/socket.h
@@ -88,109 +88,117 @@ thread
 csignal
 -
 ./headers/client.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/client.h
+/tmp/tmp.qN68bvB66D/src/./headers/client.h
 mutex
 -
 
-/tmp/tmp.IsWyfLL8d7/src/enums/Face.h
+/tmp/tmp.qN68bvB66D/src/enums/Face.h
 
-/tmp/tmp.IsWyfLL8d7/src/enums/HandRanking.h
+/tmp/tmp.qN68bvB66D/src/enums/HandRanking.h
 
-/tmp/tmp.IsWyfLL8d7/src/enums/Moves.h
+/tmp/tmp.qN68bvB66D/src/enums/Moves.h
 
-/tmp/tmp.IsWyfLL8d7/src/enums/Suit.h
+/tmp/tmp.qN68bvB66D/src/enums/Suit.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 ../enums/Face.h
-/tmp/tmp.IsWyfLL8d7/src/enums/Face.h
+/tmp/tmp.qN68bvB66D/src/enums/Face.h
 ../enums/Suit.h
-/tmp/tmp.IsWyfLL8d7/src/enums/Suit.h
+/tmp/tmp.qN68bvB66D/src/enums/Suit.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/Command.h
+/tmp/tmp.qN68bvB66D/src/headers/Command.h
 PokerTable.h
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerTable.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/Player.h
+/tmp/tmp.qN68bvB66D/src/headers/Player.h
 cstdlib
 -
 Card.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 PokerHand.h
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerHand.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerHand.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerHand.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerHand.h
 Card.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 Player.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Player.h
+/tmp/tmp.qN68bvB66D/src/headers/Player.h
 ../enums/HandRanking.h
-/tmp/tmp.IsWyfLL8d7/src/enums/HandRanking.h
+/tmp/tmp.qN68bvB66D/src/enums/HandRanking.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerTable.h
 ../enums/HandRanking.h
-/tmp/tmp.IsWyfLL8d7/src/enums/HandRanking.h
+/tmp/tmp.qN68bvB66D/src/enums/HandRanking.h
 ../enums/Moves.h
-/tmp/tmp.IsWyfLL8d7/src/enums/Moves.h
+/tmp/tmp.qN68bvB66D/src/enums/Moves.h
 Card.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 Player.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Player.h
+/tmp/tmp.qN68bvB66D/src/headers/Player.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/client.h
+/tmp/tmp.qN68bvB66D/src/headers/client.h
 
-/tmp/tmp.IsWyfLL8d7/src/headers/server.h
+/tmp/tmp.qN68bvB66D/src/headers/server.h
 PokerTable.h
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerTable.h
 mutex
 -
 
-/tmp/tmp.IsWyfLL8d7/src/main.cpp
+/tmp/tmp.qN68bvB66D/src/main.cpp
 iostream
 -
 cstring
 -
 headers/PokerTable.h
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerTable.h
 headers/Card.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 headers/Command.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Command.h
+/tmp/tmp.qN68bvB66D/src/headers/Command.h
 headers/server.h
-/tmp/tmp.IsWyfLL8d7/src/headers/server.h
+/tmp/tmp.qN68bvB66D/src/headers/server.h
 headers/client.h
-/tmp/tmp.IsWyfLL8d7/src/headers/client.h
+/tmp/tmp.qN68bvB66D/src/headers/client.h
 
-/tmp/tmp.IsWyfLL8d7/src/objects/Card.cpp
+/tmp/tmp.qN68bvB66D/src/objects/Card.cpp
 ../headers/Card.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 
-/tmp/tmp.IsWyfLL8d7/src/objects/Command.cpp
+/tmp/tmp.qN68bvB66D/src/objects/Command.cpp
 cstring
 -
 cstdio
 -
 ../headers/Command.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Command.h
+/tmp/tmp.qN68bvB66D/src/headers/Command.h
 
-/tmp/tmp.IsWyfLL8d7/src/objects/Player.cpp
+/tmp/tmp.qN68bvB66D/src/objects/Player.cpp
 cstring
 -
 cstdio
 -
 ../headers/Player.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Player.h
+/tmp/tmp.qN68bvB66D/src/headers/Player.h
 
-/tmp/tmp.IsWyfLL8d7/src/objects/PokerHand.cpp
+/tmp/tmp.qN68bvB66D/src/objects/PokerHand.cpp
 cstring
 -
 ../headers/Card.h
-/tmp/tmp.IsWyfLL8d7/src/headers/Card.h
+/tmp/tmp.qN68bvB66D/src/headers/Card.h
 ../headers/PokerHand.h
-/tmp/tmp.IsWyfLL8d7/src/headers/PokerHand.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerHand.h
 
-/tmp/tmp.IsWyfLL8d7/src/objects/PokerTable.cpp
+/tmp/tmp.qN68bvB66D/src/objects/PokerTable.cpp
+cstdlib
+-
+cstdio
+-
+cstring
+-
+../headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/headers/PokerTable.h
 
-/tmp/tmp.IsWyfLL8d7/src/server.cpp
+/tmp/tmp.qN68bvB66D/src/server.cpp
 sys/types.h
 -
 sys/socket.h
@@ -216,9 +224,9 @@ mutex
 condition_variable
 -
 ./headers/server.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/server.h
+/tmp/tmp.qN68bvB66D/src/./headers/server.h
 ./headers/PokerTable.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/PokerTable.h
+/tmp/tmp.qN68bvB66D/src/./headers/PokerTable.h
 ./headers/Command.h
-/tmp/tmp.IsWyfLL8d7/src/./headers/Command.h
+/tmp/tmp.qN68bvB66D/src/./headers/Command.h
 

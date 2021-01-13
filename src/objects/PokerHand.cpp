@@ -59,7 +59,7 @@ void PokerHand::computeRank(Card ** cards, HandRanking& rank, int& strength, cha
     // zoradenie kariet pre lahsiu detekciu kombinacii
     for (int i = 0; i < 5; ++i) {
         for (int j = i + 1; j < 5; ++j) {
-            if (cards[i] > cards[j]) {
+            if (*cards[i] > *cards[j]) {
                 Card *tmp = cards[i];
                 cards[i] = cards[j];
                 cards[j] = tmp;
@@ -131,8 +131,8 @@ void PokerHand::computeRank(Card ** cards, HandRanking& rank, int& strength, cha
     int len = 100;
     desc[0] = '\0';
     for (int i = 0; i < 5; i++) {
-        strcat(desc, cards[i]->toString());
-        strcat(desc, i == 5 ? " " : " | ");
+        strcat(desc, cards[4 - i]->toString());
+        strcat(desc, i == 4 ? " | " : " ");
     }
     switch (rank) {
         case STRAIGHT_FLUSH: strcat(desc, "Postupka vo farbe"); break;

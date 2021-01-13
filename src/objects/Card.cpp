@@ -17,41 +17,44 @@ Card::Card(int num) {
     this->face = faces[fixed % 13];
     this->shape = shapes[fixed / 13];
     this->strength = (fixed % 13) + 1;
+    char* chr = new char[6];
+    chr[0] = -30;
+    chr[1] = -103;
+    chr[2] = this->shape;
+    chr[3] = this->face == c10 ? '1' : (char)this->face;
+    chr[4] = this->face == c10 ? '0' : ' ';
+    chr[5] = '\0';
+    this->desc = chr;
 }
 
 const char *Card::toString() {
-    int size = this->face == Face::c10 ? 6 : 5;
-    char* result = new char[size];
-    // obrazok na karte je znak ktory zabera 3 miesta. Prve 2 miesta su vzdy -30 a -90
-    result[0] = -30;
-    result[1] = -103;
-    result[2] = this->shape;
-    result[3] = size == 6 ? '1' : (char)this->face;
-    result[4] = size == 6 ? '0' : '\0';
-    if (size == 6) result[5] = '\0';
-    return result;
+    return this->desc;
 }
 
-int Card::getCardStrength() {
+int Card::getCardStrength() const {
     return this->strength;
 }
 
-bool Card::operator<(Card *other) {
-    return this->strength < other->strength;
+bool Card::operator<(Card &other) const {
+    return this->strength < other.strength;
 }
 
-bool Card::operator<=(Card *other) {
-    return this->strength <= other->strength;
+bool Card::operator<=(Card &other) const {
+    return this->strength <= other.strength;
 }
 
-bool Card::operator==(Card *other) {
-    return this->strength == other->strength;
+bool Card::operator==(Card &other) const {
+    return this->strength == other.strength;
 }
 
-bool Card::operator>=(Card *other) {
-    return this->strength >= other->strength;
+bool Card::operator>=(Card &other) const {
+    return this->strength >= other.strength;
 }
 
-bool Card::operator>(Card *other) {
-    return this->strength > other->strength;
+bool Card::operator>(Card &other) const {
+    return this->strength > other.strength;
+}
+
+Card::~Card() {
+    delete[] desc;
 }

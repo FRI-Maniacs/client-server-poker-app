@@ -1,69 +1,14 @@
 #include <iostream>
 #include <cstring>
 #include "headers/PokerTable.h"
-#include "headers/Card.h"
-#include "headers/Command.h"
 #include "headers/server.h"
 #include "headers/client.h"
 
 int main(int argc, char *argv[]) {
-    // tento prikaz by sa mal za cely program vykonat len raz, a to po spusteni,
     srand(time(nullptr));
-
-    if (std::string(argv[1]) == "server"){
-        std::cout<< "SERVER" << std::endl;
-        server(argc, argv);
-    }
-    else if (std::string(argv[1]) == "client"){
-        std::cout<< "CLIENT" << std::endl;
-        client(argc, argv);
-    } else {
-        std::cout << "NOTHING" << std::endl;
-    }
-
-    /*auto* table = new PokerTable();
-
-    int p1 = table->connectPlayer("Šimon", 1);
-    int p2 = table->connectPlayer("Paľo", 2);
-    int p3 = table->connectPlayer("Peter", 3);
-    int p4 = table->connectPlayer("Ivan", 4);
-    int p5 = table->connectPlayer("Radka", 5);
-    int p6 = table->connectPlayer("Ľudka", 6);
-    printf("%d %d %d %d %d %d\n%s\n", p1, p2, p3, p4, p5, p6, table->toString());
-
-    char *msg = new char[512];
-    char *cmd = new char[30];
-
-    Command::commitAction("start", table, 0, msg);
-
-    for (int i = 0; i < 3; i++) {
-        Command::commitAction("call", table, i, msg);
-        printf("\n\n\n%s", msg);
-    }
-    for (int i = 3; i < 6; i++) {
-        Command::commitAction("check", table, i, msg);
-        printf("\n\n\n%s", msg);
-    }
-    for (int i = 0; i < 3; i++) {
-        Command::commitAction("raise", table, 0, msg);
-        printf("\n\n\n%s", msg);
-        for (int j = 1; j < 6; j++) {
-            Command::commitAction("call", table, j, msg);
-            printf("\n\n\n%s", msg);
-        }
-    }
-
-    do {
-        cmd[0] = '\0';
-        scanf("%s", cmd);
-        int player = -1;
-        auto* p = table->getCurrentPlayer();
-        if (p != nullptr) {
-            player = p->getId();
-            printf("%d", player);
-        }
-        Command::commitAction(cmd, table, player, msg);
-        printf("%s\n", msg);
-    } while (strcmp(cmd, CMD_Q) != 0);*/
+    int type = strcmp(argv[1], "server") == 0 ? 1 : strcmp(argv[1], "client") == 0 ? 2 : 0;
+    printf("%s\n", type == 0 ? "nothing" : argv[1]);
+    if (type == 1) server(argc, argv);
+    if (type == 2) client(argc, argv);
     return 0;
 }

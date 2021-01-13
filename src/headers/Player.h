@@ -22,12 +22,12 @@ private:
     int lose(int n);
 public:
     Player(const char* name, int p_id, int socket);
-    int getId();
-    int getSocket();
+
+    int getSocket() const;
     ~Player();
     void receiveCards(int c1, int c2);
     int isPlaying();
-    int isBroke();
+    int isBroke() const;
     const char * viewCards();
     int gain(int n);
     Card **getCards();
@@ -35,9 +35,9 @@ public:
     int raise(int bet);
     int allIn();
     void fold();
-    char* toString();
+
     int countMoney() const;
-    bool isAllIn(int bet);
+    bool isAllIn(int bet) const;
     const char *getName();
 };
 

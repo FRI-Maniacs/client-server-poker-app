@@ -2,17 +2,16 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <bits/stdc++.h>
-#include <arpa/inet.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
-#include <cerrno>
 #include <thread>
 #include <csignal>
 #include "./headers/client.h"
+#include "headers/Command.h"
 #include <mutex>
 
 #define MAX_LEN 512
@@ -40,14 +39,12 @@ int client(int argc, char* argv[]) {
     serv_addr.sin_port = htons(atoi(argv[3])); //port na ktorom pocuva server
 
 
-    if((client_socket = socket(AF_INET,SOCK_STREAM,0)) == -1)
-    {
+    if((client_socket = socket(AF_INET,SOCK_STREAM,0)) == -1) {
         perror("socket: ");
         exit(-1);
     }
 
-    if((connect(client_socket, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr_in))) == -1)
-    {
+    if((connect(client_socket, (struct sockaddr *)&serv_addr, sizeof(struct sockaddr_in))) == -1) {
         perror("connect: ");
         exit(-1);
     }
@@ -55,10 +52,7 @@ int client(int argc, char* argv[]) {
     signal(SIGINT, catch_ctrl_c);
     char name[MAX_LEN], init_msg[MAX_LEN];
     int bytes_received = 0;
-    //std::cout<<"Enter your name: ";
-    while(bytes_received == 0) {
-        bytes_received = recv(client_socket, init_msg, sizeof(init_msg), 0);
-    }
+    while(bytes_received == 0) bytes_received = recv(client_socket, init_msg, sizeof(init_msg), 0);
     std::cout << init_msg;
     std::cin.getline(name,MAX_LEN);
     send(client_socket, name, sizeof(name),0);
@@ -69,10 +63,8 @@ int client(int argc, char* argv[]) {
     t_send = move(t1);
     t_recv = move(t2);
 
-    if (t_send.joinable())
-        t_send.join();
-    if (t_recv.joinable())
-        t_recv.join();
+    if (t_send.joinable()) t_send.join();
+    if (t_recv.joinable()) t_recv.join();
 
     return 0;
 }
@@ -110,7 +102,7 @@ void send_message(int client_sock)
         std::cin.getline(msg, MAX_LEN);
 
         send(client_sock, msg, MAX_LEN, 0);
-        if (std::string(msg) == "q") {
+        if (std::string(msg) == CMD_Q) {
             exit_flag = true;
             t_recv.detach();
             close(client_sock);
